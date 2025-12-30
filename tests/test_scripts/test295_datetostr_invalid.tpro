@@ -1,0 +1,2 @@
+{{# Test invalid date string - should produce error #}}
+{{:invalid_date_str|datetostr,"dd/mm/yyyy"}}

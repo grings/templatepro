@@ -1,0 +1,1 @@
+Error while evaluating filter [datetostr] on variable [invalid_date_str]- Inner Exception: [ETProRenderException][[datetostr] Invalid date string 'not-a-date' - Invalid date string: not-a-date (error in filter call for function [datetostr])]

@@ -1,0 +1,31 @@
+﻿Test 1: elseif without else (if/elseif/endif)
+ONE
+---
+Test 2: elseif with negation
+ONE IS NOT ZERO
+---
+Test 3: Nested if inside elseif branch
+ONE:(nested two)---
+Test 4: elseif inside for loop
+FIRSTSECONDOTHER---
+Test 5: Multiple elseif - first branch
+FIRST
+---
+Test 6: Multiple elseif - middle branch
+SECOND
+---
+Test 7: Multiple elseif - no match (no else)
+---
+Test 8: elseif with filters
+MATCH
+---
+Test 9: Nested elseif structures
+OUTER-ZERO:inner-one---
+Test 10: elif and elseif mixed
+TEN
+---
+Test 11: elseif with expression and variable conditions mixed
+ONE
+---
+Test 12: Empty branches (elseif matches but empty content)
+[]

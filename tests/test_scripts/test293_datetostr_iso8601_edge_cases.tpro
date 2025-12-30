@@ -1,0 +1,24 @@
+{{# Edge case tests for ISO 8601 datetostr #}}
+Test 1: Date only (no time)
+{{:simple_date_str|datetostr,"dd/mm/yyyy"}}
+---
+Test 2: ISO with milliseconds and timezone
+{{:iso8601_with_tz|datetostr,"yyyy-mm-dd"}}
+---
+Test 3: ISO with UTC marker (Z)
+{{:iso8601_utc|datetimetostr,"dd/mm/yyyy hh:nn:ss"}}
+---
+Test 4: ISO without timezone
+{{:iso8601_no_tz|datetimetostr,"yyyy-mm-dd hh:nn"}}
+---
+Test 5: Empty string should return empty
+{{:empty_date_str|datetostr,"dd/mm/yyyy"}}
+---
+Test 6: datetimetostr with ISO string
+{{:iso8601_with_tz|datetimetostr,"dd mmm yyyy"}}
+---
+Test 7: Custom format with ISO string
+{{:iso8601_no_tz|datetostr,"dddd"}}
+---
+Test 8: Default format (no parameter)
+{{:simple_date_str|datetostr}}

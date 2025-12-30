@@ -1,0 +1,47 @@
+{{# Test Issue #3: elseif tag #}}
+Test 1: Basic elseif with intvalue1=1
+{{if intvalue1|eq,1}}
+ONE
+{{elseif intvalue1|eq,2}}
+TWO
+{{else}}
+OTHER
+{{endif}}
+---
+Test 2: elseif with intvalue2=2
+{{if intvalue2|eq,1}}
+ONE
+{{elseif intvalue2|eq,2}}
+TWO
+{{else}}
+OTHER
+{{endif}}
+---
+Test 3: Multiple elseif with intvalue10=10
+{{if intvalue10|eq,1}}
+ONE
+{{elseif intvalue10|eq,2}}
+TWO
+{{elseif intvalue10|eq,10}}
+TEN
+{{else}}
+OTHER
+{{endif}}
+---
+Test 4: elif alias with intvalue0=0
+{{if intvalue0|eq,1}}
+ONE
+{{elif intvalue0|eq,0}}
+ZERO
+{{else}}
+OTHER
+{{endif}}
+---
+Test 5: elseif with expression
+{{if @(intvalue1 = 2)}}
+ONE
+{{elseif @(intvalue1 = 1)}}
+CORRECT
+{{else}}
+OTHER
+{{endif}}

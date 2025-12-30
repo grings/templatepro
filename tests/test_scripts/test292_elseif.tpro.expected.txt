@@ -1,0 +1,14 @@
+﻿Test 1: Basic elseif with intvalue1=1
+ONE
+---
+Test 2: elseif with intvalue2=2
+TWO
+---
+Test 3: Multiple elseif with intvalue10=10
+TEN
+---
+Test 4: elif alias with intvalue0=0
+ZERO
+---
+Test 5: elseif with expression
+CORRECT

@@ -521,6 +521,16 @@ begin
         lCompiledTemplate.SetData('template_name', 'included_dynamic.tpro');
         lCompiledTemplate.SetData('template_type', 'dynamic');
         lCompiledTemplate.SetData('content', 'Hello Dynamic');
+        // Variables for Issue #1 test: ISO 8601 datetime strings
+        lCompiledTemplate.SetData('iso8601_with_tz', '2025-12-30T14:23:08.281+01:00');
+        lCompiledTemplate.SetData('iso8601_utc', '2025-12-30T14:23:08.281Z');
+        lCompiledTemplate.SetData('iso8601_no_tz', '2025-12-30T14:23:08');
+        lCompiledTemplate.SetData('simple_date_str', '2025-12-30');
+        lCompiledTemplate.SetData('empty_date_str', '');
+        lCompiledTemplate.SetData('invalid_date_str', 'not-a-date');
+        // Variables for NullableTDateTime test
+        lCompiledTemplate.SetData('nullable_datetime', TValue.From<NullableTDateTime>(EncodeDateTime(2025, 12, 30, 14, 30, 45, 0)));
+        lCompiledTemplate.SetData('nullable_datetime_null', TValue.From<NullableTDateTime>(nil));
         lJSONArr := TJsonBaseObject.ParseFromFile(TPath.Combine(lTestScriptsFolder, 'people.json')) as TJsonArray;
         try
           lJSONObj := TJsonObject.Create;

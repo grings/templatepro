@@ -1,0 +1,96 @@
+{{# Edge case tests for elseif #}}
+Test 1: elseif without else (if/elseif/endif)
+{{if intvalue1|eq,0}}
+ZERO
+{{elseif intvalue1|eq,1}}
+ONE
+{{endif}}
+---
+Test 2: elseif with negation
+{{if !intvalue0|eq,0}}
+NOT ZERO
+{{elseif !intvalue1|eq,0}}
+ONE IS NOT ZERO
+{{else}}
+FALLBACK
+{{endif}}
+---
+Test 3: Nested if inside elseif branch
+{{if intvalue1|eq,0}}
+ZERO
+{{elseif intvalue1|eq,1}}
+ONE:{{if intvalue2|eq,2}}(nested two){{endif}}
+{{else}}
+OTHER
+{{endif}}
+---
+Test 4: elseif inside for loop
+{{for obj in objects}}
+{{if obj.PropInt|eq,1}}FIRST{{elseif obj.PropInt|eq,2}}SECOND{{else}}OTHER{{endif}}
+{{endfor}}
+---
+Test 5: Multiple elseif - first branch
+{{if intvalue1|eq,1}}
+FIRST
+{{elseif intvalue1|eq,2}}
+SECOND
+{{elseif intvalue1|eq,3}}
+THIRD
+{{endif}}
+---
+Test 6: Multiple elseif - middle branch
+{{if intvalue2|eq,1}}
+FIRST
+{{elseif intvalue2|eq,2}}
+SECOND
+{{elseif intvalue2|eq,3}}
+THIRD
+{{endif}}
+---
+Test 7: Multiple elseif - no match (no else)
+{{if intvalue10|eq,1}}
+ONE
+{{elseif intvalue10|eq,2}}
+TWO
+{{elseif intvalue10|eq,3}}
+THREE
+{{endif}}
+---
+Test 8: elseif with filters
+{{if value2|lowercase|eq,"daniele2"}}
+MATCH
+{{elseif value2|uppercase|eq,"DANIELE2"}}
+UPPER MATCH
+{{else}}
+NO MATCH
+{{endif}}
+---
+Test 9: Nested elseif structures
+{{if intvalue0|eq,0}}
+OUTER-ZERO:{{if intvalue1|eq,0}}inner-zero{{elseif intvalue1|eq,1}}inner-one{{endif}}
+{{elseif intvalue0|eq,1}}
+OUTER-ONE
+{{endif}}
+---
+Test 10: elif and elseif mixed
+{{if intvalue10|eq,1}}
+ONE
+{{elif intvalue10|eq,5}}
+FIVE
+{{elseif intvalue10|eq,10}}
+TEN
+{{else}}
+OTHER
+{{endif}}
+---
+Test 11: elseif with expression and variable conditions mixed
+{{if @(intvalue1 = 0)}}
+ZERO
+{{elseif intvalue1|eq,1}}
+ONE
+{{elseif @(intvalue1 > 1)}}
+GREATER
+{{endif}}
+---
+Test 12: Empty branches (elseif matches but empty content)
+[{{if intvalue1|eq,0}}{{elseif intvalue1|eq,1}}{{else}}other{{endif}}]

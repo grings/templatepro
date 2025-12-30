@@ -1,0 +1,11 @@
+﻿ISO 8601 date string with timezone:
+30/12/2025
+---
+ISO 8601 date string UTC:
+30/12/2025
+---
+ISO 8601 datetime without timezone:
+30/12/2025
+---
+Simple date string:
+30/12/2025

@@ -1,0 +1,20 @@
+{{# Test Issue #2: eq filter comparing iterator variable with external variable #}}
+Test 1: Compare iterator integer with external variable (intvalue1=1)
+{{for obj in objects}}
+obj.PropInt={{:obj.PropInt}}, intvalue1={{:intvalue1}}, match={{if obj.PropInt|eq,intvalue1}}YES{{else}}NO{{endif}}
+{{endfor}}
+---
+Test 2: Compare dataset field Code with external variable (intvalue2=2)
+{{for cust in customers}}
+{{if cust.Code|eq,intvalue2}}FOUND: cust.Code={{:cust.Code}} matches intvalue2={{:intvalue2}}{{endif}}
+{{endfor}}
+---
+Test 3: Compare two top-level variables (should work)
+intvalue1={{:intvalue1}}, intvalue2={{:intvalue2}}
+{{if intvalue1|eq,intvalue1}}intvalue1=intvalue1{{endif}}
+{{if intvalue1|ne,intvalue2}}intvalue1<>intvalue2{{endif}}
+---
+Test 4: Compare iterator property with external OBJECT property
+{{for obj in objects}}
+obj.PropInt={{:obj.PropInt}}, dataitem.PropInt={{:dataitem.PropInt}}, match={{if obj.PropInt|eq,dataitem.PropInt}}YES{{else}}NO{{endif}}
+{{endfor}}

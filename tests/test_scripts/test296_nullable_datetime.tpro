@@ -1,0 +1,17 @@
+Test 1: NullableTDateTime with datetostr (default format)
+{{:nullable_datetime|datetostr}}
+---
+Test 2: NullableTDateTime with datetostr (custom format)
+{{:nullable_datetime|datetostr,"yyyy-mm-dd"}}
+---
+Test 3: NullableTDateTime with datetimetostr (default format)
+{{:nullable_datetime|datetimetostr}}
+---
+Test 4: NullableTDateTime with datetimetostr (custom format)
+{{:nullable_datetime|datetimetostr,"dd/mm/yyyy HH:nn:ss"}}
+---
+Test 5: Null NullableTDateTime with datetostr
+[{{:nullable_datetime_null|datetostr}}]
+---
+Test 6: Null NullableTDateTime with datetimetostr
+[{{:nullable_datetime_null|datetimetostr}}]

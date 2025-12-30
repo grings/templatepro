@@ -1,0 +1,27 @@
+﻿Test 1: Compare iterator integer with external variable (intvalue1=1)
+obj.PropInt=1, intvalue1=1, match=YES
+obj.PropInt=2, intvalue1=1, match=NO
+obj.PropInt=3, intvalue1=1, match=NO
+---
+Test 2: Compare dataset field Code with external variable (intvalue2=2)
+
+FOUND: cust.Code=2 matches intvalue2=2
+
+
+
+
+
+
+
+
+
+
+
+---
+Test 3: Compare two top-level variables (should work)
+intvalue1=1, intvalue2=2
+intvalue1=intvalue1intvalue1<>intvalue2---
+Test 4: Compare iterator property with external OBJECT property
+obj.PropInt=1, dataitem.PropInt=1, match=YES
+obj.PropInt=2, dataitem.PropInt=1, match=NO
+obj.PropInt=3, dataitem.PropInt=1, match=NO

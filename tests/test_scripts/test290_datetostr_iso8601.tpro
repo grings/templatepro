@@ -1,0 +1,12 @@
+{{# Test Issue #1: datetostr filter with ISO 8601 datetime strings #}}
+ISO 8601 date string with timezone:
+{{:iso8601_with_tz|datetostr,"dd/mm/yyyy"}}
+---
+ISO 8601 date string UTC:
+{{:iso8601_utc|datetostr,"dd/mm/yyyy"}}
+---
+ISO 8601 datetime without timezone:
+{{:iso8601_no_tz|datetostr,"dd/mm/yyyy"}}
+---
+Simple date string:
+{{:simple_date_str|datetostr,"dd/mm/yyyy"}}
