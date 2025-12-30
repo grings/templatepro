@@ -36,6 +36,7 @@ uses
   Data.DB,
   UtilsU in 'UtilsU.pas',
   TemplatePro in '..\TemplatePro.pas',
+  TemplatePro.Types in '..\TemplatePro.Types.pas',
   JsonDataObjects in '..\JsonDataObjects.pas',
   MVCFramework.Nullables in '..\MVCFramework.Nullables.pas',
   System.SysUtils,
