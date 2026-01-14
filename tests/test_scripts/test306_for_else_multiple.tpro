@@ -1,0 +1,24 @@
+Multiple For-Else Test
+
+First (non-empty):
+{{for obj in objects}}
+- {{:obj.Prop1}}
+{{else}}
+List 1 is empty.
+{{endfor}}
+
+Second (empty):
+{{for row in emptydataset}}
+- {{:row.Code}}
+{{else}}
+List 2 is empty.
+{{endfor}}
+
+Third (non-empty):
+{{for cust in customers}}
+- {{:cust.Name}}
+{{else}}
+List 3 is empty.
+{{endfor}}
+
+Done.

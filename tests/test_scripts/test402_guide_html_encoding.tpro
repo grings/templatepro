@@ -1,0 +1,3 @@
+{{# Test HTML auto-encoding from guide #}}
+<p>HTML encoded: {{:myhtml}}</p>
+<p>HTML raw: {{:myhtml$}}</p>

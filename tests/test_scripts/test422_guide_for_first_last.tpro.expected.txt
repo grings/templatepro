@@ -1,0 +1,11 @@
+﻿<div class="timeline">
+  <div class="timeline-item timeline-start">
+    <span class="badge">First</span>    <h4>value1.1 - 1</h4>
+      </div>
+  <div class="timeline-item">
+        <h4>value1.2 - 2</h4>
+      </div>
+  <div class="timeline-item timeline-end">
+        <h4>value1.3 - 3</h4>
+    <span class="badge">Last</span>  </div>
+</div>

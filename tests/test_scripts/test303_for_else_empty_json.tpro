@@ -1,0 +1,7 @@
+For-Else Empty JSON Array Test
+{{for item in json2.nonexistent}}
+Item: {{:item.value}}
+{{else}}
+No items in JSON array.
+{{endfor}}
+After for-else

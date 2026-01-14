@@ -1,0 +1,14 @@
+﻿<div class="team">
+<div class="user-badge">
+  <img src="/img/daniele.jpg" alt="Daniele Teti">
+  <span>Daniele Teti</span>
+  <small>Developer</small>
+</div>
+
+<div class="user-badge">
+  <img src="/img/bruce.jpg" alt="Bruce Banner">
+  <span>Bruce Banner</span>
+  <small>Designer</small>
+</div>
+
+</div>

@@ -109,7 +109,8 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="RandomTextUtilsU.pas"/>
-        <DCCReference Include="..\TemplatePro.pas"/>
+        <DCCReference Include="..\..\TemplatePro.Types.pas"/>
+        <DCCReference Include="..\..\TemplatePro.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -183,6 +184,12 @@
             </Delphi.Personality>
             <Deployment Version="5">
                 <DeployFile LocalName="bin\templateprosample.exe" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile LocalName="bin\templateprosample.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>templateprosample.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="iOSSimulator">
                         <Operation>1</Operation>

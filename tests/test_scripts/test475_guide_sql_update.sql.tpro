@@ -1,0 +1,7 @@
+{{# Test SQL dynamic UPDATE from guide #}}
+UPDATE customers
+SET updated_at = NOW()
+  {{if value1}}, name = :name{{endif}}
+  {{if value2}}, email = :email{{endif}}
+  {{if intvalue10}}, order_count = :count{{endif}}
+WHERE id = :id

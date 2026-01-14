@@ -1,0 +1,7 @@
+{{# Test set from guide - basic assignments #}}
+{{set maxItems := 10}}
+{{set pageTitle := "User Dashboard"}}
+{{set showSidebar := true}}
+Max: {{:maxItems}}
+Title: {{:pageTitle}}
+Show: {{if showSidebar}}yes{{else}}no{{endif}}

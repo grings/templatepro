@@ -18,7 +18,8 @@ uses
   FireDAC.Comp.Client,
   System.Rtti,
   JsonDataObjects,
-  TemplatePro in '..\..\TemplatePro.pas';
+  TemplatePro in '..\..\TemplatePro.pas',
+  TemplatePro.Types in '..\..\TemplatePro.Types.pas';
 
 function GetPeopleDataset: TDataSet;
 var

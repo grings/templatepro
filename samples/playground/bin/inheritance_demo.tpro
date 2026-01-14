@@ -1,46 +1,203 @@
 {{# Inheritance Demo - Extends layout_base.html #}}
 {{extends "layout_base.html"}}
 
-{{block "title"}}<title>Inheritance Demo - Custom Page</title>{{endblock}}
+{{block "title"}}<title>Template Inheritance Demo - TemplatePro</title>{{endblock}}
+
+{{block "meta"}}
+{{inherited}}
+<meta name="author" content="{{:first_name}} {{:last_name}}">
+{{endblock}}
 
 {{block "styles"}}
 {{inherited}}
 <style>
-  .demo-content { background: #f0f8ff; padding: 20px; border-radius: 8px; }
-  .highlight { color: #2980b9; font-weight: bold; }
-  .feature-list { background: #e8f5e9; padding: 15px; border-radius: 4px; }
+  .demo-content {
+    background: linear-gradient(135deg, #f0f4ff 0%, #e8f0ff 100%);
+    padding: 30px;
+    border-radius: 16px;
+    margin-bottom: 25px;
+  }
+  .highlight {
+    color: var(--primary);
+    font-weight: bold;
+  }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .feature-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
+    border-left: 4px solid var(--primary);
+    transition: transform 0.3s;
+  }
+  .feature-card:hover {
+    transform: translateY(-5px);
+  }
+  .feature-card h4 {
+    color: var(--primary);
+    margin-bottom: 10px;
+  }
+  .feature-card code {
+    background: #f0f4ff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+  .syntax-example {
+    background: #2d3748;
+    color: #e2e8f0;
+    padding: 20px;
+    border-radius: 12px;
+    overflow-x: auto;
+    font-family: 'Consolas', monospace;
+    font-size: 0.9em;
+    line-height: 1.8;
+  }
+  .syntax-example .tag {
+    color: #68d391;
+  }
+  .syntax-example .string {
+    color: #fbd38d;
+  }
+  .syntax-example .comment {
+    color: #a0aec0;
+  }
 </style>
 {{endblock}}
 
 {{block "content"}}
 <div class="demo-content">
   <h1>Template Inheritance Demo</h1>
+  <p style="font-size:1.1em;margin-top:15px;">
+    This page demonstrates <span class="highlight">multi-level template inheritance</span> in TemplatePro v{{:app_version}}.
+    It extends <code>layout_base.html</code> and overrides several blocks.
+  </p>
+</div>
 
-  <p>This page demonstrates <span class="highlight">multi-level template inheritance</span> in TemplatePro v0.9.0.</p>
+<div class="card">
+  <h2>How Template Inheritance Works</h2>
 
-  <h2>How it works:</h2>
-  <div class="feature-list">
-    <ul>
-      <li>This template extends <code>layout_base.html</code></li>
-      <li>It overrides the "title", "styles", and "content" blocks</li>
-      <li>It uses <code>inherited</code> in the styles block to keep parent styles AND add new ones</li>
-      <li>The header and footer blocks are NOT overridden, so they use the parent's content</li>
-    </ul>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h4>extends</h4>
+      <p>Inherit from a parent template. The child template gets all the parent's content and can override specific blocks.</p>
+      <p style="margin-top:10px;"><code>{<!-- -->{extends "parent.html"}}</code></p>
+    </div>
+
+    <div class="feature-card">
+      <h4>block</h4>
+      <p>Define named sections that child templates can override. Think of them as "slots" for customization.</p>
+      <p style="margin-top:10px;"><code>{<!-- -->{block "name"}}...{<!-- -->{endblock}}</code></p>
+    </div>
+
+    <div class="feature-card">
+      <h4>inherited</h4>
+      <p>Include the parent block's content within your override. Similar to <code>super()</code> in Python/Jinja2.</p>
+      <p style="margin-top:10px;"><code>{<!-- -->{inherited}}</code></p>
+    </div>
+
+    <div class="feature-card">
+      <h4>Multi-Level</h4>
+      <p>Templates can extend templates that extend other templates. Create deep inheritance hierarchies!</p>
+      <p style="margin-top:10px;"><code>A → B → C → ...</code></p>
+    </div>
   </div>
+</div>
 
-  <h2>Key Features:</h2>
-  <ul>
-    <li><strong>extends</strong> - Inherit from a parent template</li>
-    <li><strong>block</strong> - Define overridable sections</li>
-    <li><strong>inherited</strong> - Include parent block content (like super() in Jinja2)</li>
-    <li><strong>Multi-level</strong> - A can extend B which extends C</li>
+<div class="card">
+  <h2>This Template's Structure</h2>
+  <div class="syntax-example">
+<span class="comment">{{# Child template: inheritance_demo.tpro #}}</span>
+<span class="tag">{<!-- -->{extends</span> <span class="string">"layout_base.html"</span><span class="tag">}}</span>
+
+<span class="tag">{<!-- -->{block</span> <span class="string">"title"</span><span class="tag">}}</span>Custom Title Here<span class="tag">{<!-- -->{endblock}}</span>
+
+<span class="tag">{<!-- -->{block</span> <span class="string">"styles"</span><span class="tag">}}</span>
+  <span class="tag">{<!-- -->{inherited}}</span>  <span class="comment">{{# Include parent styles #}}</span>
+  &lt;style&gt;
+    .my-custom-class { ... }  <span class="comment">{{# Add new styles #}}</span>
+  &lt;/style&gt;
+<span class="tag">{<!-- -->{endblock}}</span>
+
+<span class="tag">{<!-- -->{block</span> <span class="string">"content"</span><span class="tag">}}</span>
+  &lt;h1&gt;My Custom Content&lt;/h1&gt;
+  <span class="comment">{{# Completely replace content block #}}</span>
+<span class="tag">{<!-- -->{endblock}}</span>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Blocks in This Page</h2>
+  <table style="width:100%;border-collapse:collapse;">
+    <thead>
+      <tr style="background:#f7fafc;text-align:left;">
+        <th style="padding:12px;border-bottom:2px solid var(--border);">Block Name</th>
+        <th style="padding:12px;border-bottom:2px solid var(--border);">Status</th>
+        <th style="padding:12px;border-bottom:2px solid var(--border);">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:12px;border-bottom:1px solid var(--border);"><code>title</code></td>
+        <td style="padding:12px;border-bottom:1px solid var(--border);"><span style="color:var(--success);">Overridden</span></td>
+        <td style="padding:12px;border-bottom:1px solid var(--border);">Custom page title</td>
+      </tr>
+      <tr>
+        <td style="padding:12px;border-bottom:1px solid var(--border);"><code>meta</code></td>
+        <td style="padding:12px;border-bottom:1px solid var(--border);"><span style="color:var(--info);">Extended</span></td>
+        <td style="padding:12px;border-bottom:1px solid var(--border);">Added author meta tag using inherited</td>
+      </tr>
+      <tr>
+        <td style="padding:12px;border-bottom:1px solid var(--border);"><code>styles</code></td>
+        <td style="padding:12px;border-bottom:1px solid var(--border);"><span style="color:var(--info);">Extended</span></td>
+        <td style="padding:12px;border-bottom:1px solid var(--border);">Parent styles + custom demo styles</td>
+      </tr>
+      <tr>
+        <td style="padding:12px;border-bottom:1px solid var(--border);"><code>header</code></td>
+        <td style="padding:12px;border-bottom:1px solid var(--border);"><span style="color:var(--gray);">Inherited</span></td>
+        <td style="padding:12px;border-bottom:1px solid var(--border);">Using parent's header as-is</td>
+      </tr>
+      <tr>
+        <td style="padding:12px;border-bottom:1px solid var(--border);"><code>content</code></td>
+        <td style="padding:12px;border-bottom:1px solid var(--border);"><span style="color:var(--success);">Overridden</span></td>
+        <td style="padding:12px;border-bottom:1px solid var(--border);">This content you're reading!</td>
+      </tr>
+      <tr>
+        <td style="padding:12px;border-bottom:1px solid var(--border);"><code>footer</code></td>
+        <td style="padding:12px;border-bottom:1px solid var(--border);"><span style="color:var(--gray);">Inherited</span></td>
+        <td style="padding:12px;border-bottom:1px solid var(--border);">Using parent's footer as-is</td>
+      </tr>
+      <tr>
+        <td style="padding:12px;"><code>scripts</code></td>
+        <td style="padding:12px;"><span style="color:var(--info);">Extended</span></td>
+        <td style="padding:12px;">Parent scripts + custom script</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h2>Dynamic Data</h2>
+  <p>Template variables work seamlessly with inheritance:</p>
+  <ul style="margin-top:15px;margin-left:20px;">
+    <li><strong>User:</strong> {{:first_name}} {{:last_name}}</li>
+    <li><strong>Date:</strong> {{:today}}</li>
+    <li><strong>App Version:</strong> {{:app_version}}</li>
+    <li><strong>Logged In:</strong> {{if is_logged_in}}Yes{{else}}No{{endif}}</li>
+    <li><strong>Sample Data:</strong> {{:value2}}</li>
   </ul>
-
-  <p>Value from playground: <strong>{{:value2}}</strong></p>
 </div>
 {{endblock}}
 
 {{block "scripts"}}
 {{inherited}}
-<script>console.log('Inheritance demo page loaded!');</script>
+<script>
+  console.log('Inheritance demo page loaded!');
+  console.log('User: {{:first_name}} {{:last_name}}');
+</script>
 {{endblock}}

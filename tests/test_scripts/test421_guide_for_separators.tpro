@@ -1,0 +1,6 @@
+{{# Test separators with @@last from guide #}}
+<nav class="breadcrumb">
+{{for item in objects}}
+{{:item.Prop1}}{{if !item.@@last}} / {{endif}}
+{{endfor}}
+</nav>

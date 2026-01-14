@@ -1,0 +1,4 @@
+{{# Test lpad/rpad filters from guide #}}
+<pre>{{:intvalue10|lpad,10}}</pre>
+<span class="code">{{:intvalue2|lpad,8,"0"}}</span>
+<td>{{:value2|rpad,20,"."}}</td>

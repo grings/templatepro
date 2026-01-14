@@ -1,0 +1,7 @@
+{{# Test negation with ! from guide #}}
+{{if !intvalue0}}
+<div class="alert">The value is zero or false.</div>
+{{endif}}
+{{if intvalue1}}
+<div class="success">The value is non-zero.</div>
+{{endif}}

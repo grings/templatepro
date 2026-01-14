@@ -1,6 +1,6 @@
 ﻿// ***************************************************************************
 //
-// Copyright (c) 2016-2025 Daniele Teti
+// Copyright (c) 2016-2026 Daniele Teti
 //
 // https://github.com/danieleteti/templatepro
 //
@@ -384,6 +384,296 @@ begin
   WriteLn('TestWriteReadFromFile'.PadRight(45) + ' : OK');
 end;
 
+procedure TestCompiledTemplateOutputIdentical;
+// Verifies that a template loaded from compiled file produces
+// EXACTLY the same output (byte-for-byte) as the original compiled template
+var
+  lCompiler: TTProCompiler;
+  lOriginalTmpl: ITProCompiledTemplate;
+  lLoadedTmpl: ITProCompiledTemplate;
+  lOutputOriginal: string;
+  lOutputLoaded: string;
+  lOutputBytesOriginal: TBytes;
+  lOutputBytesLoaded: TBytes;
+  I: Integer;
+  lTemplateSource: string;
+begin
+  // Test with a complex template containing various features
+  lTemplateSource :=
+    '<!DOCTYPE html>'#13#10 +
+    '<html><head><title>{{:title}}</title></head>'#13#10 +
+    '<body>'#13#10 +
+    '  <h1>{{:title|uppercase}}</h1>'#13#10 +
+    '  {{if showContent}}'#13#10 +
+    '  <p>Value: {{:value1}} - {{:value2|lowercase}}</p>'#13#10 +
+    '  {{for item in items}}'#13#10 +
+    '  <li>{{:item.@@index}}: {{:item.Prop1}} = {{:item.Prop2}}</li>'#13#10 +
+    '  {{endfor}}'#13#10 +
+    '  {{endif}}'#13#10 +
+    '  <footer>Generated: {{:timestamp}}</footer>'#13#10 +
+    '</body></html>';
+
+  lCompiler := TTProCompiler.Create();
+  try
+    // Compile original template
+    lOriginalTmpl := lCompiler.Compile(lTemplateSource);
+
+    // Save to file
+    lOriginalTmpl.SaveToFile('output_test_identical.tpc');
+
+    // Set data and render original
+    lOriginalTmpl.SetData('title', 'Test Page');
+    lOriginalTmpl.SetData('showContent', True);
+    lOriginalTmpl.SetData('value1', 'First Value');
+    lOriginalTmpl.SetData('value2', 'SECOND VALUE');
+    lOriginalTmpl.SetData('timestamp', '2024-01-15 10:30:00');
+
+    var lItems := TObjectList<TDataItem>.Create(True);
+    try
+      lItems.Add(TDataItem.Create('Item1', 'Val1', 'Extra1', 1));
+      lItems.Add(TDataItem.Create('Item2', 'Val2', 'Extra2', 2));
+      lItems.Add(TDataItem.Create('Item3', 'Val3', 'Extra3', 3));
+      lOriginalTmpl.SetData('items', lItems);
+
+      lOutputOriginal := lOriginalTmpl.Render;
+
+      // Load from file
+      lLoadedTmpl := TTProCompiledTemplate.CreateFromFile('output_test_identical.tpc');
+
+      // Set EXACT same data
+      lLoadedTmpl.SetData('title', 'Test Page');
+      lLoadedTmpl.SetData('showContent', True);
+      lLoadedTmpl.SetData('value1', 'First Value');
+      lLoadedTmpl.SetData('value2', 'SECOND VALUE');
+      lLoadedTmpl.SetData('timestamp', '2024-01-15 10:30:00');
+      lLoadedTmpl.SetData('items', lItems);
+
+      lOutputLoaded := lLoadedTmpl.Render;
+
+      // Verify string equality
+      Assert(lOutputOriginal = lOutputLoaded,
+        'String output mismatch: Original length=' + Length(lOutputOriginal).ToString +
+        ', Loaded length=' + Length(lOutputLoaded).ToString);
+
+      // Verify byte-for-byte equality
+      lOutputBytesOriginal := TEncoding.UTF8.GetBytes(lOutputOriginal);
+      lOutputBytesLoaded := TEncoding.UTF8.GetBytes(lOutputLoaded);
+
+      Assert(Length(lOutputBytesOriginal) = Length(lOutputBytesLoaded),
+        'Byte length mismatch: Original=' + Length(lOutputBytesOriginal).ToString +
+        ', Loaded=' + Length(lOutputBytesLoaded).ToString);
+
+      for I := 0 to Length(lOutputBytesOriginal) - 1 do
+      begin
+        Assert(lOutputBytesOriginal[I] = lOutputBytesLoaded[I],
+          'Byte mismatch at position ' + I.ToString +
+          ': Original=$' + IntToHex(lOutputBytesOriginal[I], 2) +
+          ', Loaded=$' + IntToHex(lOutputBytesLoaded[I], 2));
+      end;
+    finally
+      lItems.Free;
+    end;
+  finally
+    lCompiler.Free;
+  end;
+
+  WriteLn('TestCompiledTemplateOutputIdentical'.PadRight(45) + ' : OK');
+end;
+
+procedure TestCompiledTemplateTokensPreserved;
+// Verifies that all token fields are correctly preserved after save/load
+var
+  lCompiler: TTProCompiler;
+  lOriginalTmpl: ITProCompiledTemplate;
+  lLoadedTmpl: ITProCompiledTemplate;
+  lTemplateSource: string;
+  lOutput1, lOutput2: string;
+  lList1, lList2: TObjectList<TDataItem>;
+begin
+  // Template with various token types
+  lTemplateSource :=
+    '{{if condition}}TRUE{{else}}FALSE{{endif}}' +
+    '{{for x in list}}[{{:x.Prop1}}]{{endfor}}' +
+    '{{:value|uppercase|lpad,20}}' +
+    '{{@price * qty}}';
+
+  lCompiler := TTProCompiler.Create();
+  try
+    lOriginalTmpl := lCompiler.Compile(lTemplateSource);
+    lOriginalTmpl.SaveToFile('output_test_tokens.tpc');
+
+    // Test with condition=True
+    lList1 := TObjectList<TDataItem>.Create(True);
+    try
+      lList1.Add(TDataItem.Create('A', '', '', 0));
+      lList1.Add(TDataItem.Create('B', '', '', 0));
+      lOriginalTmpl.SetData('condition', True);
+      lOriginalTmpl.SetData('list', lList1);
+      lOriginalTmpl.SetData('value', 'test');
+      lOriginalTmpl.SetData('price', 10);
+      lOriginalTmpl.SetData('qty', 5);
+      lOutput1 := lOriginalTmpl.Render;
+    finally
+      lList1.Free;
+    end;
+
+    // Load and test with same data
+    lLoadedTmpl := TTProCompiledTemplate.CreateFromFile('output_test_tokens.tpc');
+    lList2 := TObjectList<TDataItem>.Create(True);
+    try
+      lList2.Add(TDataItem.Create('A', '', '', 0));
+      lList2.Add(TDataItem.Create('B', '', '', 0));
+      lLoadedTmpl.SetData('condition', True);
+      lLoadedTmpl.SetData('list', lList2);
+      lLoadedTmpl.SetData('value', 'test');
+      lLoadedTmpl.SetData('price', 10);
+      lLoadedTmpl.SetData('qty', 5);
+      lOutput2 := lLoadedTmpl.Render;
+
+      Assert(lOutput1 = lOutput2, 'Output mismatch with condition=True: ' + lOutput1 + ' vs ' + lOutput2);
+    finally
+      lList2.Free;
+    end;
+  finally
+    lCompiler.Free;
+  end;
+
+  WriteLn('TestCompiledTemplateTokensPreserved'.PadRight(45) + ' : OK');
+end;
+
+procedure TestCompiledTemplateUnicodePreserved;
+// Verifies that Unicode strings are correctly preserved in compiled templates
+var
+  lCompiler: TTProCompiler;
+  lOriginalTmpl: ITProCompiledTemplate;
+  lLoadedTmpl: ITProCompiledTemplate;
+  lTemplateSource: string;
+  lOutputOriginal, lOutputLoaded: string;
+  lOutputBytesOriginal, lOutputBytesLoaded: TBytes;
+  I: Integer;
+begin
+  // Template with Euro symbol (common Unicode char) and variable
+  lTemplateSource :=
+    'Price: '#226#130#172'100'#13#10 +  // Euro symbol as UTF-8 bytes
+    'Variable: {{:myvar}}'#13#10 +
+    'Upper: {{:myvar|uppercase}}';
+
+  lCompiler := TTProCompiler.Create();
+  try
+    lOriginalTmpl := lCompiler.Compile(lTemplateSource);
+    lOriginalTmpl.SetData('myvar', 'TestValue');
+    lOutputOriginal := lOriginalTmpl.Render;
+
+    lOriginalTmpl.SaveToFile('output_test_unicode.tpc');
+
+    lLoadedTmpl := TTProCompiledTemplate.CreateFromFile('output_test_unicode.tpc');
+    lLoadedTmpl.SetData('myvar', 'TestValue');
+    lOutputLoaded := lLoadedTmpl.Render;
+
+    // Main test: outputs must be identical
+    Assert(lOutputOriginal = lOutputLoaded,
+      'Unicode output mismatch: lengths ' + Length(lOutputOriginal).ToString +
+      ' vs ' + Length(lOutputLoaded).ToString);
+
+    // Verify byte-for-byte equality
+    lOutputBytesOriginal := TEncoding.UTF8.GetBytes(lOutputOriginal);
+    lOutputBytesLoaded := TEncoding.UTF8.GetBytes(lOutputLoaded);
+
+    Assert(Length(lOutputBytesOriginal) = Length(lOutputBytesLoaded),
+      'Byte lengths differ');
+
+    for I := 0 to Length(lOutputBytesOriginal) - 1 do
+    begin
+      Assert(lOutputBytesOriginal[I] = lOutputBytesLoaded[I],
+        'Byte ' + I.ToString + ' differs');
+    end;
+
+    // Verify variable values
+    Assert(Pos('TestValue', lOutputLoaded) > 0, 'Variable value not found');
+    Assert(Pos('TESTVALUE', lOutputLoaded) > 0, 'Uppercase value not found');
+  finally
+    lCompiler.Free;
+  end;
+
+  WriteLn('TestCompiledTemplateUnicodePreserved'.PadRight(45) + ' : OK');
+end;
+
+procedure TestCompiledTemplateMultipleRenders;
+// Verifies that multiple renders from loaded template produce consistent output
+var
+  lLoadedTmpl: ITProCompiledTemplate;
+  lCompiler: TTProCompiler;
+  lOutput1, lOutput2, lOutput3: string;
+begin
+  lCompiler := TTProCompiler.Create();
+  try
+    var lTmpl := lCompiler.Compile('Hello {{:name}}, count={{:count}}');
+    lTmpl.SaveToFile('output_test_multi.tpc');
+  finally
+    lCompiler.Free;
+  end;
+
+  lLoadedTmpl := TTProCompiledTemplate.CreateFromFile('output_test_multi.tpc');
+
+  // First render
+  lLoadedTmpl.SetData('name', 'World');
+  lLoadedTmpl.SetData('count', 1);
+  lOutput1 := lLoadedTmpl.Render;
+
+  // Clear and second render with different data
+  lLoadedTmpl.ClearData;
+  lLoadedTmpl.SetData('name', 'Delphi');
+  lLoadedTmpl.SetData('count', 2);
+  lOutput2 := lLoadedTmpl.Render;
+
+  // Third render with same data as first
+  lLoadedTmpl.ClearData;
+  lLoadedTmpl.SetData('name', 'World');
+  lLoadedTmpl.SetData('count', 1);
+  lOutput3 := lLoadedTmpl.Render;
+
+  Assert(lOutput1 = 'Hello World, count=1', 'First render mismatch: ' + lOutput1);
+  Assert(lOutput2 = 'Hello Delphi, count=2', 'Second render mismatch: ' + lOutput2);
+  Assert(lOutput1 = lOutput3, 'Third render should match first');
+
+  WriteLn('TestCompiledTemplateMultipleRenders'.PadRight(45) + ' : OK');
+end;
+
+procedure TestCompiledFileBinaryEquality;
+// Verifies that saving twice produces identical binary files
+var
+  lCompiler: TTProCompiler;
+  lTmpl: ITProCompiledTemplate;
+  lBytes1, lBytes2: TBytes;
+  I: Integer;
+begin
+  lCompiler := TTProCompiler.Create();
+  try
+    lTmpl := lCompiler.Compile(
+      '{{if x}}{{for y in list}}{{:y.Name}}{{endfor}}{{endif}}' +
+      '{{:value|uppercase|lpad,15}}');
+
+    lTmpl.SaveToFile('output_binary1.tpc');
+    lTmpl.SaveToFile('output_binary2.tpc');
+
+    lBytes1 := TFile.ReadAllBytes('output_binary1.tpc');
+    lBytes2 := TFile.ReadAllBytes('output_binary2.tpc');
+
+    Assert(Length(lBytes1) = Length(lBytes2),
+      'Binary file lengths differ: ' + Length(lBytes1).ToString + ' vs ' + Length(lBytes2).ToString);
+
+    for I := 0 to Length(lBytes1) - 1 do
+    begin
+      Assert(lBytes1[I] = lBytes2[I],
+        'Binary files differ at byte ' + I.ToString);
+    end;
+  finally
+    lCompiler.Free;
+  end;
+
+  WriteLn('TestCompiledFileBinaryEquality'.PadRight(45) + ' : OK');
+end;
+
 procedure Main;
 var
   lTPro: TTProCompiler;
@@ -745,6 +1035,11 @@ begin
     begin
       TestTokenWriteReadFromFile;
       TestWriteReadFromFile;
+      TestCompiledTemplateOutputIdentical;
+      TestCompiledTemplateTokensPreserved;
+      TestCompiledTemplateUnicodePreserved;
+      TestCompiledTemplateMultipleRenders;
+      TestCompiledFileBinaryEquality;
       TestHTMLEntities;
       TestGetTValueFromPath;
       TestExpressionEvaluator;

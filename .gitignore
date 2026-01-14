@@ -79,3 +79,6 @@ samples/playground/bin/output/last_output.html
 /output.tp
 /tests/*.txt
 /nul
+/tmpclaude-*
+tmpclaude-*
+/tests/bin/*.tpc

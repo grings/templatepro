@@ -1,0 +1,10 @@
+For-Else Inside If Test
+{{if value1}}
+Inside if:
+{{for row in emptydataset}}
+Row: {{:row.Code}}
+{{else}}
+No rows available.
+{{endfor}}
+{{endif}}
+After if block

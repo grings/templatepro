@@ -1,0 +1,12 @@
+{{# Test if/elseif from guide - value handling #}}
+<div class="status">
+  {{if intvalue10|eq,0}}
+    <span class="status zero">Zero</span>
+  {{elseif intvalue10|lt,5}}
+    <span class="status low">Low</span>
+  {{elseif intvalue10|lt,15}}
+    <span class="status medium">Medium</span>
+  {{else}}
+    <span class="status high">High</span>
+  {{endif}}
+</div>

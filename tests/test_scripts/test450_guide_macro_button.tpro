@@ -1,0 +1,10 @@
+{{# Test button macro from guide #}}
+{{macro button(text, variant)}}
+<button class="btn btn-{{:variant}}">{{:text}}</button>
+{{endmacro}}
+
+<div class="actions">
+{{>button("Save", "primary")}}
+{{>button("Cancel", "secondary")}}
+{{>button("Delete", "danger")}}
+</div>

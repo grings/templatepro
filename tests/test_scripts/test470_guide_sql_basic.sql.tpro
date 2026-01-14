@@ -1,0 +1,14 @@
+{{# Test basic SQL generation from guide #}}
+SELECT
+  c.id,
+  c.name,
+  c.email
+FROM customers c
+WHERE 1=1
+{{if value1}}
+  AND c.name LIKE :name
+{{endif}}
+{{if intvalue10}}
+  AND c.total_orders >= :minOrders
+{{endif}}
+ORDER BY {{:value2|default,"c.name"}}

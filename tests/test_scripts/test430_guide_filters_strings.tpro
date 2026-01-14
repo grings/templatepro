@@ -1,0 +1,5 @@
+{{# Test string filters from guide #}}
+<h1>{{:value2|uppercase}}</h1>
+<span class="lower">{{:value2|lowercase}}</span>
+<p>Cap: {{:value2|capitalize}}</p>
+<p class="preview">{{:phrasewithquotes|trunc,20}}</p>

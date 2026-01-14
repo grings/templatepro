@@ -4,9 +4,10 @@ uses
   Vcl.Forms,
   MainFormU in 'MainFormU.pas' {MainForm},
   RandomTextUtilsU in 'RandomTextUtilsU.pas',
-  TemplatePro in '..\TemplatePro.pas',
   Vcl.Themes,
-  Vcl.Styles;
+  Vcl.Styles,
+  TemplatePro.Types in '..\..\TemplatePro.Types.pas',
+  TemplatePro in '..\..\TemplatePro.pas';
 
 {$R *.res}
 

@@ -1,0 +1,444 @@
+{{# E-Commerce Demo - Products, Cart, Order Summary #}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechShop - E-Commerce Demo</title>
+  <style>
+    :root {
+      --primary: #ff6b35;
+      --primary-dark: #e85a2c;
+      --secondary: #004e89;
+      --success: #2ec4b6;
+      --warning: #ffbe0b;
+      --danger: #ff006e;
+      --bg: #f8f9fa;
+      --card: white;
+      --text: #333;
+      --text-muted: #6c757d;
+      --border: #dee2e6;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .navbar {
+      background: var(--secondary);
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .navbar .logo {
+      font-size: 1.5em;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .navbar .user-info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .cart-icon {
+      position: relative;
+      cursor: pointer;
+      font-size: 1.3em;
+    }
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: var(--primary);
+      color: white;
+      font-size: 0.6em;
+      padding: 2px 6px;
+      border-radius: 10px;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 30px;
+    }
+    .page-title {
+      font-size: 2em;
+      margin-bottom: 10px;
+      color: var(--secondary);
+    }
+    .breadcrumb {
+      color: var(--text-muted);
+      margin-bottom: 30px;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 30px;
+    }
+    @media (max-width: 1024px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .product-card {
+      background: var(--card);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    .product-image {
+      height: 180px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4em;
+      color: white;
+      position: relative;
+    }
+    .sale-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--danger);
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.75em;
+      font-weight: bold;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .product-info {
+      padding: 20px;
+    }
+    .product-category {
+      color: var(--text-muted);
+      font-size: 0.85em;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .product-name {
+      font-size: 1.2em;
+      margin: 8px 0;
+      color: var(--secondary);
+    }
+    .product-desc {
+      color: var(--text-muted);
+      font-size: 0.9em;
+      margin-bottom: 15px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .product-price {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: var(--primary);
+    }
+    .product-rating {
+      color: var(--warning);
+      font-size: 0.9em;
+    }
+    .stock-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.75em;
+      font-weight: 500;
+    }
+    .stock-high { background: #d4edda; color: #155724; }
+    .stock-medium { background: #fff3cd; color: #856404; }
+    .stock-low { background: #f8d7da; color: #721c24; }
+    .add-to-cart {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 15px;
+    }
+    .add-to-cart:hover { background: var(--primary-dark); }
+    .sidebar {
+      position: sticky;
+      top: 90px;
+      height: fit-content;
+    }
+    .cart-panel {
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    .cart-header {
+      background: var(--secondary);
+      color: white;
+      padding: 20px;
+      font-size: 1.2em;
+    }
+    .cart-items {
+      padding: 20px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .cart-item {
+      display: flex;
+      gap: 15px;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .cart-item:last-child { border-bottom: none; }
+    .cart-item-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5em;
+    }
+    .cart-item-info { flex: 1; }
+    .cart-item-name { font-weight: 500; }
+    .cart-item-price { color: var(--primary); font-weight: bold; }
+    .cart-summary {
+      background: #f8f9fa;
+      padding: 20px;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+    }
+    .summary-row.total {
+      border-top: 2px solid var(--border);
+      margin-top: 10px;
+      padding-top: 15px;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+    .checkout-btn {
+      width: 100%;
+      padding: 15px;
+      background: var(--success);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1em;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: background 0.3s;
+    }
+    .checkout-btn:hover { background: #25a89e; }
+    .categories-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+    .category-chip {
+      padding: 8px 18px;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .category-chip:hover, .category-chip.active {
+      background: var(--secondary);
+      color: white;
+      border-color: var(--secondary);
+    }
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-muted);
+    }
+    .footer {
+      background: var(--secondary);
+      color: white;
+      text-align: center;
+      padding: 30px;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+
+  {{# Define Macros #}}
+  {{macro starRating(rating)}}
+  {{if rating|ge,1}}*{{endif}}{{if rating|ge,2}}*{{endif}}{{if rating|ge,3}}*{{endif}}{{if rating|ge,4}}*{{endif}}{{if rating|ge,5}}*{{endif}}
+  {{endmacro}}
+
+  {{macro productIcon(category)}}
+  {{if category|eq,"Electronics"}}💻{{elseif category|eq,"Clothing"}}👕{{elseif category|eq,"Books"}}📚{{else}}🏠{{endif}}
+  {{endmacro}}
+
+  {{# Navigation Bar #}}
+  <nav class="navbar">
+    <div class="logo">
+      🛒 TechShop
+    </div>
+    <div class="user-info">
+      {{if is_logged_in}}
+        <span>Welcome, {{:first_name}}!</span>
+        <div class="cart-icon">
+          🛒
+          <span class="cart-count">3</span>
+        </div>
+      {{else}}
+        <span>Sign In</span>
+      {{endif}}
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1 class="page-title">Our Products</h1>
+    <p class="breadcrumb">Home / Products / All Categories</p>
+
+    {{# Categories Bar #}}
+    <div class="categories-bar">
+      <span class="category-chip active">All</span>
+      {{for cat in categories}}
+      <span class="category-chip">{{:cat.Name}}</span>
+      {{endfor}}
+    </div>
+
+    <div class="layout">
+      {{# Products Grid #}}
+      <div>
+        <div class="products-grid">
+          {{for prod in products}}
+          <div class="product-card">
+            <div class="product-image">
+              {{>productIcon(prod.Category.Name)}}
+              {{if prod.OnSale}}
+                <span class="sale-badge">SALE!</span>
+              {{endif}}
+            </div>
+            <div class="product-info">
+              <div class="product-category">{{:prod.Category.Name}}</div>
+              <h3 class="product-name">{{:prod.Name}}</h3>
+              <p class="product-desc">{{:prod.Description}}</p>
+              <div class="product-footer">
+                <span class="product-price">${{:prod.Price}}</span>
+                <span class="product-rating">{{>starRating(prod.Rating)}} {{:prod.Rating}}</span>
+              </div>
+              <div style="margin-top:10px;">
+                {{if prod.Stock|gt,100}}
+                  <span class="stock-badge stock-high">In Stock ({{:prod.Stock}})</span>
+                {{elseif prod.Stock|gt,50}}
+                  <span class="stock-badge stock-medium">Limited ({{:prod.Stock}})</span>
+                {{else}}
+                  <span class="stock-badge stock-low">Low Stock ({{:prod.Stock}})</span>
+                {{endif}}
+              </div>
+              <button class="add-to-cart">Add to Cart</button>
+            </div>
+          </div>
+          {{endfor}}
+        </div>
+      </div>
+
+      {{# Shopping Cart Sidebar #}}
+      <aside class="sidebar">
+        <div class="cart-panel">
+          <div class="cart-header">
+            🛒 Shopping Cart
+          </div>
+
+          <div class="cart-items">
+            {{# Simulate cart items using first 3 products #}}
+            {{set cart_count := 0}}
+            {{for prod in products}}
+              {{if cart_count|lt,3}}
+                <div class="cart-item">
+                  <div class="cart-item-icon">
+                    {{>productIcon(prod.Category.Name)}}
+                  </div>
+                  <div class="cart-item-info">
+                    <div class="cart-item-name">{{:prod.Name}}</div>
+                    <div class="cart-item-price">${{:prod.Price}}</div>
+                  </div>
+                </div>
+                {{set cart_count := @(cart_count + 1)}}
+              {{endif}}
+            {{endfor}}
+          </div>
+
+          {{# Calculate totals from first 3 products #}}
+          {{set subtotal := 0}}
+          {{set item_count := 0}}
+          {{for prod in products}}
+            {{if item_count|lt,3}}
+              {{set subtotal := @(subtotal + prod.Price)}}
+              {{set item_count := @(item_count + 1)}}
+            {{endif}}
+          {{endfor}}
+
+          {{set discount := @(subtotal * discount_rate)}}
+          {{set tax := @(subtotal * tax_rate)}}
+          {{set total := @(subtotal - discount + tax)}}
+
+          <div class="cart-summary">
+            <div class="summary-row">
+              <span>Subtotal ({{:item_count}} items)</span>
+              <span>${{:subtotal}}</span>
+            </div>
+            <div class="summary-row">
+              <span>Discount ({{@discount_rate * 100}}%)</span>
+              <span style="color:var(--success);">-${{:discount}}</span>
+            </div>
+            <div class="summary-row">
+              <span>Tax ({{@tax_rate * 100}}%)</span>
+              <span>+${{:tax}}</span>
+            </div>
+            <div class="summary-row total">
+              <span>Total</span>
+              <span>${{:total}}</span>
+            </div>
+            <button class="checkout-btn">Proceed to Checkout</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  {{# Footer #}}
+  <footer class="footer">
+    <p>TechShop - Powered by TemplatePro v{{:app_version}}</p>
+    <p style="margin-top:10px;opacity:0.8;">Copyright 2016-2026 Daniele Teti</p>
+  </footer>
+
+</body>
+</html>

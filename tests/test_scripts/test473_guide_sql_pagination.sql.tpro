@@ -1,0 +1,9 @@
+{{# Test SQL pagination from guide #}}
+{{set page := 2}}
+{{set pageSize := 10}}
+SELECT id, name
+FROM users
+WHERE status = 'ACTIVE'
+ORDER BY {{:value2|default,"created_at"}}
+LIMIT {{:pageSize}}
+OFFSET {{@((page - 1) * pageSize)}}

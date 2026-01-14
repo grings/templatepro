@@ -1,0 +1,3 @@
+﻿Max: 10
+Title: User Dashboard
+Show: yes

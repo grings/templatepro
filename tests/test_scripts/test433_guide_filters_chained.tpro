@@ -1,0 +1,3 @@
+{{# Test chained filters from guide #}}
+{{:value2|lowercase|lpad,15}}
+{{:value2|uppercase|rpad,15}}

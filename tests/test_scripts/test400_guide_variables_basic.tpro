@@ -1,0 +1,6 @@
+{{# Test basic variables from guide #}}
+<div class="user-profile">
+  <h1>{{:value1}}</h1>
+  <p>Value: {{:value2}}</p>
+  <p>Count: {{:intvalue10}} items</p>
+</div>

@@ -1,0 +1,12 @@
+For-Else Nested Test
+{{for obj in objects}}
+Object: {{:obj.Prop1}}
+  {{for row in emptydataset}}
+  - Row: {{:row.Code}}
+  {{else}}
+  - No sub-items
+  {{endfor}}
+{{else}}
+No objects.
+{{endfor}}
+After nested for-else

@@ -1,0 +1,4 @@
+{{# Test default filter from guide #}}
+<p>Value: {{:nonexistent|default,"Default Value"}}</p>
+<p>Number: {{:intvalue0|default,99}}</p>
+<p>UseExisting: {{:value2|default,"fallback"}}</p>

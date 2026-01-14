@@ -1,0 +1,353 @@
+{{# ElseIf Demo - New in v1.0 #}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ElseIf Demo - TemplatePro v1.0</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      min-height: 100vh;
+      padding: 30px;
+      color: #333;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 30px;
+    }
+    .header h1 { font-size: 2.5em; margin-bottom: 10px; }
+    .header .badge {
+      background: #ff6b6b;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9em;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    .card h2 {
+      color: #1e3c72;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 3px solid #1e3c72;
+    }
+    .card h3 {
+      color: #2a5298;
+      margin: 20px 0 15px;
+    }
+    code {
+      background: #f0f4f8;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: 'Consolas', monospace;
+      color: #d63384;
+    }
+    pre {
+      background: #2d3748;
+      color: #e2e8f0;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 15px 0;
+      font-size: 0.9em;
+    }
+    .example {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 15px 0;
+    }
+    .example-title {
+      font-weight: bold;
+      color: #495057;
+      margin-bottom: 10px;
+    }
+    .result {
+      background: #e8f5e9;
+      border-left: 4px solid #4caf50;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .badge {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.85em;
+    }
+    .badge-a { background: #4caf50; color: white; }
+    .badge-b { background: #2196f3; color: white; }
+    .badge-c { background: #ff9800; color: white; }
+    .badge-d { background: #ff5722; color: white; }
+    .badge-f { background: #f44336; color: white; }
+    .badge-info { background: #e3f2fd; color: #1976d2; }
+    .badge-success { background: #e8f5e9; color: #388e3c; }
+    .badge-warning { background: #fff3e0; color: #f57c00; }
+    .badge-danger { background: #ffebee; color: #d32f2f; }
+    table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+    th { background: #f8f9fa; color: #495057; }
+    .highlight { background: #fff3cd; padding: 2px 6px; border-radius: 4px; }
+    .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 768px) { .comparison { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>ElseIf / Elif Support</h1>
+      <span class="badge">New in v1.0</span>
+      <p style="margin-top:15px;opacity:0.9;">Multi-branch conditionals without nested if statements</p>
+    </div>
+
+    {{# Syntax Overview #}}
+    <div class="card">
+      <h2>Syntax Overview</h2>
+      <p>TemplatePro now supports <code>elseif</code> (or <code>elif</code>) for cleaner conditional chains:</p>
+      <pre>
+{<!-- -->{if condition1}}
+  ... first branch ...
+{<!-- -->{elseif condition2}}
+  ... second branch ...
+{<!-- -->{elseif condition3}}
+  ... third branch ...
+{<!-- -->{else}}
+  ... default branch ...
+{<!-- -->{endif}}</pre>
+      <p style="margin-top:15px;"><strong>Note:</strong> Both <code>elseif</code> and <code>elif</code> are supported (case-insensitive).</p>
+    </div>
+
+    {{# Grading Example #}}
+    <div class="card">
+      <h2>Example 1: Grade Calculator</h2>
+      <p>Determine letter grades based on numeric scores:</p>
+
+      <div class="comparison">
+        <div>
+          <h3>Test Scores</h3>
+          {{set scores := "95,82,73,65,45"}}
+          <table>
+            <tr><th>Score</th><th>Grade</th><th>Status</th></tr>
+            {{set score := 95}}
+            <tr>
+              <td>{{:score}}</td>
+              <td>
+                {{if score|gt,90}}<span class="badge badge-a">A</span>
+                {{elseif score|gt,80}}<span class="badge badge-b">B</span>
+                {{elseif score|gt,70}}<span class="badge badge-c">C</span>
+                {{elseif score|gt,60}}<span class="badge badge-d">D</span>
+                {{else}}<span class="badge badge-f">F</span>
+                {{endif}}
+              </td>
+              <td>{{if score|gt,70}}Pass{{else}}Fail{{endif}}</td>
+            </tr>
+            {{set score := 82}}
+            <tr>
+              <td>{{:score}}</td>
+              <td>
+                {{if score|gt,90}}<span class="badge badge-a">A</span>
+                {{elseif score|gt,80}}<span class="badge badge-b">B</span>
+                {{elseif score|gt,70}}<span class="badge badge-c">C</span>
+                {{elseif score|gt,60}}<span class="badge badge-d">D</span>
+                {{else}}<span class="badge badge-f">F</span>
+                {{endif}}
+              </td>
+              <td>{{if score|gt,70}}Pass{{else}}Fail{{endif}}</td>
+            </tr>
+            {{set score := 73}}
+            <tr>
+              <td>{{:score}}</td>
+              <td>
+                {{if score|gt,90}}<span class="badge badge-a">A</span>
+                {{elseif score|gt,80}}<span class="badge badge-b">B</span>
+                {{elseif score|gt,70}}<span class="badge badge-c">C</span>
+                {{elseif score|gt,60}}<span class="badge badge-d">D</span>
+                {{else}}<span class="badge badge-f">F</span>
+                {{endif}}
+              </td>
+              <td>{{if score|gt,70}}Pass{{else}}Fail{{endif}}</td>
+            </tr>
+            {{set score := 65}}
+            <tr>
+              <td>{{:score}}</td>
+              <td>
+                {{if score|gt,90}}<span class="badge badge-a">A</span>
+                {{elseif score|gt,80}}<span class="badge badge-b">B</span>
+                {{elseif score|gt,70}}<span class="badge badge-c">C</span>
+                {{elseif score|gt,60}}<span class="badge badge-d">D</span>
+                {{else}}<span class="badge badge-f">F</span>
+                {{endif}}
+              </td>
+              <td>{{if score|gt,70}}Pass{{else}}Fail{{endif}}</td>
+            </tr>
+            {{set score := 45}}
+            <tr>
+              <td>{{:score}}</td>
+              <td>
+                {{if score|gt,90}}<span class="badge badge-a">A</span>
+                {{elseif score|gt,80}}<span class="badge badge-b">B</span>
+                {{elseif score|gt,70}}<span class="badge badge-c">C</span>
+                {{elseif score|gt,60}}<span class="badge badge-d">D</span>
+                {{else}}<span class="badge badge-f">F</span>
+                {{endif}}
+              </td>
+              <td>{{if score|gt,70}}Pass{{else}}Fail{{endif}}</td>
+            </tr>
+          </table>
+        </div>
+        <div>
+          <h3>Code</h3>
+          <pre>
+{<!-- -->{if score|gt,90}}
+  Grade A
+{<!-- -->{elseif score|gt,80}}
+  Grade B
+{<!-- -->{elseif score|gt,70}}
+  Grade C
+{<!-- -->{elseif score|gt,60}}
+  Grade D
+{<!-- -->{else}}
+  Grade F
+{<!-- -->{endif}}</pre>
+        </div>
+      </div>
+    </div>
+
+    {{# User Role Example #}}
+    <div class="card">
+      <h2>Example 2: User Roles</h2>
+      <p>Display different content based on user role:</p>
+
+      <div class="example">
+        <div class="example-title">Current User: {{:first_name}} {{:last_name}}</div>
+        <div class="result">
+          {{if is_admin}}
+            <span class="badge badge-danger">Administrator Access</span>
+            <p style="margin-top:10px;">Full system access. You can manage users, settings, and all data.</p>
+          {{elseif is_logged_in}}
+            <span class="badge badge-success">Regular User</span>
+            <p style="margin-top:10px;">Welcome! You have access to your personal dashboard and data.</p>
+          {{else}}
+            <span class="badge badge-info">Guest</span>
+            <p style="margin-top:10px;">Please log in to access more features.</p>
+          {{endif}}
+        </div>
+      </div>
+    </div>
+
+    {{# Stock Level Example #}}
+    <div class="card">
+      <h2>Example 3: Stock Level Indicators</h2>
+      <p>Display appropriate stock status based on quantity:</p>
+
+      <table>
+        <tr>
+          <th>Product</th>
+          <th>Stock</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+        {{for prod in products}}
+        <tr>
+          <td>{{:prod.Name}}</td>
+          <td>{{:prod.Stock}} units</td>
+          <td>
+            {{if prod.Stock|gt,200}}
+              <span class="badge badge-success">Abundant</span>
+            {{elseif prod.Stock|gt,100}}
+              <span class="badge badge-info">Good</span>
+            {{elseif prod.Stock|gt,50}}
+              <span class="badge badge-warning">Low</span>
+            {{else}}
+              <span class="badge badge-danger">Critical</span>
+            {{endif}}
+          </td>
+          <td>
+            {{if prod.Stock|lt,100}}
+              <span style="color:#f57c00;">Reorder needed</span>
+            {{else}}
+              <span style="color:#388e3c;">OK</span>
+            {{endif}}
+          </td>
+        </tr>
+        {{endfor}}
+      </table>
+    </div>
+
+    {{# Time-based Greeting #}}
+    <div class="card">
+      <h2>Example 4: Numeric Comparisons</h2>
+      <p>Using expressions with elseif:</p>
+
+      {{set hour := 14}}
+      <div class="example">
+        <div class="example-title">Hour: {{:hour}}:00</div>
+        <div class="result">
+          {{if hour|lt,6}}
+            Night time - Get some sleep!
+          {{elseif hour|lt,12}}
+            Good morning!
+          {{elseif hour|lt,17}}
+            Good afternoon!
+          {{elseif hour|lt,21}}
+            Good evening!
+          {{else}}
+            Good night!
+          {{endif}}
+        </div>
+      </div>
+
+      {{set temperature := 25}}
+      <div class="example">
+        <div class="example-title">Temperature: {{:temperature}}C</div>
+        <div class="result">
+          {{if temperature|lt,0}}
+            <span class="badge badge-info">Freezing</span> Stay warm!
+          {{elseif temperature|lt,15}}
+            <span class="badge badge-info">Cold</span> Wear a jacket.
+          {{elseif temperature|lt,25}}
+            <span class="badge badge-success">Pleasant</span> Perfect weather!
+          {{elseif temperature|lt,35}}
+            <span class="badge badge-warning">Warm</span> Stay hydrated.
+          {{else}}
+            <span class="badge badge-danger">Hot</span> Seek shade!
+          {{endif}}
+        </div>
+      </div>
+    </div>
+
+    {{# Elif Alternative #}}
+    <div class="card">
+      <h2>Alternative Syntax: elif</h2>
+      <p>You can also use <code>elif</code> (Python/Jinja style) instead of <code>elseif</code>:</p>
+      <pre>
+{<!-- -->{if condition1}}
+  ...
+{<!-- -->{elif condition2}}    {{# Same as elseif #}}
+  ...
+{<!-- -->{elif condition3}}
+  ...
+{<!-- -->{else}}
+  ...
+{<!-- -->{endif}}</pre>
+      <p style="margin-top:15px;">Both are completely equivalent - choose whichever style you prefer!</p>
+    </div>
+
+    {{# Footer #}}
+    <div style="text-align:center;color:white;padding:20px;opacity:0.9;">
+      <p>TemplatePro v{{:app_version}} - ElseIf Demo</p>
+      <p style="margin-top:5px;">Copyright 2016-2026 Daniele Teti</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 object MainForm: TMainForm
   Left = 0
   Top = 0
-  Caption = 'TemplatePro Sample - Copyright 2017-2025 Daniele Teti'
+  Caption = 'TemplatePro Sample - Copyright 2017-2026 Daniele Teti'
   ClientHeight = 515
   ClientWidth = 967
   Color = clBtnFace

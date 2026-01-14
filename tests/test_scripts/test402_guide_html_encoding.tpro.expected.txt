@@ -1,0 +1,2 @@
+﻿<p>HTML encoded: &lt;div&gt;this &lt;strong&gt;HTML&lt;/strong&gt;&#345;&#353;&#269;&lt;/div&gt;</p>
+<p>HTML raw: <div>this <strong>HTML</strong>řšč</div></p>

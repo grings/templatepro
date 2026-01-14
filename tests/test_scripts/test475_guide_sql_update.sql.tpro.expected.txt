@@ -1,0 +1,3 @@
+﻿UPDATE customers
+SET updated_at = NOW()
+  , name = :name  , email = :email  , order_count = :countWHERE id = :id

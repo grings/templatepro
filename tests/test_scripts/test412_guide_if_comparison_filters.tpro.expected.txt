@@ -1,0 +1,3 @@
+﻿<p class="medium">Between 6 and 100</p>
+
+<span class="zero">Zero value</span>

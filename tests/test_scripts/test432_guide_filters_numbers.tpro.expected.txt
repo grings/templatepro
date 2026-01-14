@@ -1,0 +1,3 @@
+﻿<td>1200 EUR</td>
+<p>Int: 1235</p>
+<td class="price">1234.57 EUR</td>

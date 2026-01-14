@@ -4,7 +4,7 @@
 
 **TemplatePro** is a modern template engine for Delphi and Object Pascal, inspired by Jinja2, Twig, and Smarty. If you're looking for a Jinja-like or Mustache-like template engine for Delphi, TemplatePro is the solution.
 
-[![Version](https://img.shields.io/badge/version-0.9.0-blue.svg)](https://github.com/danieleteti/templatepro)
+[![Version](https://img.shields.io/badge/version-1.0-blue.svg)](https://github.com/danieleteti/templatepro)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![Delphi](https://img.shields.io/badge/Delphi-10%20Seattle+-orange.svg)](https://www.embarcadero.com/products/delphi)
 

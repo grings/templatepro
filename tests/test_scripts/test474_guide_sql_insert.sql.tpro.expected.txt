@@ -1,0 +1,7 @@
+﻿INSERT INTO customers (
+  name,
+  email
+  , phone  , city) VALUES (
+  :name,
+  :email
+  , :phone  , :city)

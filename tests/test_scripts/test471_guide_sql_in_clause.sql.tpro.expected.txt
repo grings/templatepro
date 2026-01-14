@@ -1,0 +1,4 @@
+﻿
+SELECT * FROM products
+WHERE category_id IN (,)
+

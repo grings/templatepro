@@ -1,0 +1,5 @@
+{{# Test include with mapping from guide #}}
+<div class="team">
+{{include "included_guide_badge.tpro", name = "Daniele Teti", avatar = "/img/daniele.jpg", role = "Developer"}}
+{{include "included_guide_badge.tpro", name = "Bruce Banner", avatar = "/img/bruce.jpg", role = "Designer"}}
+</div>

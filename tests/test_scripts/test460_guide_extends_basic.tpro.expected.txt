@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>Product Catalog</title>
+<link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<header>
+<nav><a href="/">Home</a></nav>
+</header>
+<main>
+<h1>Our Products</h1>
+<p>Product list here</p>
+</main>
+<footer>
+<p>Copyright 2025</p>
+</footer>
+</body>
+</html>

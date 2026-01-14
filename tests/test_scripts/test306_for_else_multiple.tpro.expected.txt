@@ -1,0 +1,26 @@
+Multiple For-Else Test
+
+First (non-empty):
+- value1.1
+- value1.2
+- value1.3
+
+Second (empty):
+List 2 is empty.
+
+Third (non-empty):
+- Ford
+- Ferrari
+- Lotus
+- FCA
+- Hyundai
+- De Tomaso
+- Dodge
+- Tesla
+- Kia
+- Tata
+- Volkswagen
+- Audi
+- Skoda
+
+Done.

@@ -1,0 +1,18 @@
+﻿
+<section class="products">
+<article class="product">
+  <h3>value1.1</h3>
+  <p class="id">ID: 1</p>
+</article>
+
+<article class="product">
+  <h3>value1.2</h3>
+  <p class="id">ID: 2</p>
+</article>
+
+<article class="product">
+  <h3>value1.3</h3>
+  <p class="id">ID: 3</p>
+</article>
+
+</section>

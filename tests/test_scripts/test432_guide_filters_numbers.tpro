@@ -1,0 +1,4 @@
+{{# Test numeric filters from guide #}}
+<td>{{:floatvalue|round,2}} EUR</td>
+<p>Int: {{:floatvalue|round,0}}</p>
+<td class="price">{{:floatvalue|formatfloat,"0.00"}} EUR</td>

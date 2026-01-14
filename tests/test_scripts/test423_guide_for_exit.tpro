@@ -1,0 +1,11 @@
+{{# Test loop with exit from guide - show first elements #}}
+<section class="featured">
+  <h2>Customer List</h2>
+{{for cust in customers}}
+  <div class="card">
+    <span class="code">{{:cust.Code}}</span>
+    <span class="name">{{:cust.Name}}</span>
+  </div>
+{{exit}}
+{{endfor}}
+</section>

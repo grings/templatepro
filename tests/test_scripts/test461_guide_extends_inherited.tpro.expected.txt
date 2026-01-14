@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>My Site</title>
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/products.css">
+</head>
+<body>
+<header>
+<nav><a href="/">Home</a></nav>
+</header>
+<main>
+<h1>Products with extra styles</h1>
+</main>
+<footer>
+<p>Copyright 2025</p>
+</footer>
+</body>
+</html>

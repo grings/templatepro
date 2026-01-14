@@ -1,0 +1,8 @@
+For-Else Happy Path Test
+Non-empty list:
+{{for obj in objects}}
+- {{:obj.Prop1}}
+{{else}}
+No objects found.
+{{endfor}}
+After for-else

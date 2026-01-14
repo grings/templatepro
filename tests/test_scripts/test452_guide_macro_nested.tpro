@@ -1,0 +1,14 @@
+{{# Test nested macros from guide #}}
+{{macro icon(name)}}
+<i class="icon icon-{{:name}}"></i>
+{{endmacro}}
+
+{{macro alertBox(message, type, iconName)}}
+<div class="alert alert-{{:type}}">
+{{>icon(iconName)}}
+<span>{{:message}}</span>
+</div>
+{{endmacro}}
+
+{{>alertBox("Operation completed!", "success", "check")}}
+{{>alertBox("An error occurred.", "danger", "warning")}}

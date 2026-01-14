@@ -1,0 +1,6 @@
+﻿<section class="featured">
+  <h2>Customer List</h2>
+  <div class="card">
+    <span class="code">1</span>
+    <span class="name">Ford</span>
+  </div>

@@ -1,0 +1,7 @@
+For-Else Empty List Test
+{{for row in emptydataset}}
+Row: {{:row.Code}}
+{{else}}
+No items in the list.
+{{endfor}}
+After for-else

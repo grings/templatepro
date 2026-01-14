@@ -1,0 +1,9 @@
+﻿SELECT
+  c.id,
+  c.name,
+  c.email
+FROM customers c
+WHERE 1=1
+  AND c.name LIKE :name
+  AND c.total_orders >= :minOrders
+ORDER BY DANIELE2

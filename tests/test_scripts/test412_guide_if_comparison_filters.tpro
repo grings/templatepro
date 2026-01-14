@@ -1,0 +1,17 @@
+{{# Test comparison filters from guide #}}
+{{if intvalue10|gt,100}}
+<p class="over">Above 100</p>
+{{elseif intvalue10|gt,5}}
+<p class="medium">Between 6 and 100</p>
+{{else}}
+<p class="low">5 or less</p>
+{{endif}}
+
+{{# Value check #}}
+{{if intvalue0|eq,0}}
+<span class="zero">Zero value</span>
+{{elseif intvalue0|le,5}}
+<span class="low">Below 5</span>
+{{else}}
+<span class="ok">OK</span>
+{{endif}}

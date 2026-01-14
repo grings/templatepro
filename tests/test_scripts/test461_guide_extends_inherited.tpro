@@ -1,0 +1,11 @@
+{{# Test extends with inherited from guide #}}
+{{extends "layout_guide_base.html"}}
+
+{{block "styles"}}
+{{inherited}}
+<link rel="stylesheet" href="/css/products.css">
+{{endblock}}
+
+{{block "content"}}
+<h1>Products with extra styles</h1>
+{{endblock}}

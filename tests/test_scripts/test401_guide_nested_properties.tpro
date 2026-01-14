@@ -1,0 +1,7 @@
+{{# Test nested properties (dot notation) from guide #}}
+<div class="data-card">
+  <h2>{{:obj.Prop1}}</h2>
+  <p>Value2: {{:obj.Prop2}}</p>
+  <p>Value3: {{:obj.Prop3}}</p>
+  <p>Int: {{:obj.PropInt}}</p>
+</div>

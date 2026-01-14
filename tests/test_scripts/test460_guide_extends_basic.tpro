@@ -1,0 +1,11 @@
+{{# Test basic extends from guide #}}
+{{extends "layout_guide_base.html"}}
+
+{{block "title"}}
+<title>Product Catalog</title>
+{{endblock}}
+
+{{block "content"}}
+<h1>Our Products</h1>
+<p>Product list here</p>
+{{endblock}}

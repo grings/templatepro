@@ -1,0 +1,28 @@
+Debug Test - Step by Step
+==========================
+
+Step 1 - Simple variable:
+{{:first_name}} {{:last_name}}
+
+Step 2 - Simple if/else:
+{{if is_logged_in}}Logged in{{else}}Not logged in{{endif}}
+
+Step 3 - ElseIf chain:
+{{set score := 85}}
+{{if score|gt,90}}A{{elseif score|gt,80}}B{{elseif score|gt,70}}C{{else}}D{{endif}}
+
+Step 4 - Simple macro:
+{{macro greet(name)}}Hello {{:name}}!{{endmacro}}
+{{>greet("World")}}
+
+Step 5 - Macro with if:
+{{macro test_if(val)}}{{if val}}YES{{else}}NO{{endif}}{{endmacro}}
+{{>test_if(true)}} / {{>test_if(false)}}
+
+Step 6 - Simple for loop:
+{{for p in people}}[{{:p.name}}]{{endfor}}
+
+Step 7 - Nested object:
+{{for prod in products}}{{:prod.Name}}: {{:prod.Category.Name}} - {{endfor}}
+
+Done!

@@ -1,0 +1,4 @@
+{{# Test expressions from guide - calculations #}}
+<p>Sum: {{:intvalue10}} + {{:intvalue2}} = {{@intvalue10 + intvalue2}}</p>
+<p>Product: {{:intvalue10}} * {{:intvalue2}} = {{@intvalue10 * intvalue2}}</p>
+<p>Calculation: {{@(intvalue10 * 2) + intvalue2}}</p>

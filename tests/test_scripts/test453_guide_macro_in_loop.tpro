@@ -1,0 +1,13 @@
+{{# Test macro in loop from guide #}}
+{{macro productItem(name, id)}}
+<article class="product">
+  <h3>{{:name}}</h3>
+  <p class="id">ID: {{:id}}</p>
+</article>
+{{endmacro}}
+
+<section class="products">
+{{for prod in objects}}
+{{>productItem(prod.Prop1, prod.PropInt)}}
+{{endfor}}
+</section>

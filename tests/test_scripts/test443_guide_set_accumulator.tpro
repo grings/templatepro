@@ -1,0 +1,9 @@
+{{# Test set as accumulator from guide #}}
+{{set counter := 0}}
+<ul>
+{{for item in objects}}
+{{set counter := @(counter + 1)}}
+<li>{{:counter}}. {{:item.Prop1}}</li>
+{{endfor}}
+</ul>
+<p>Total items: {{:counter}}</p>

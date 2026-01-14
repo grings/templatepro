@@ -1,0 +1,442 @@
+{{# ============================================== #}}
+{{# TemplatePro v1.0 - Complete Feature Showcase #}}
+{{# ============================================== #}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TemplatePro Complete Feature Showcase</title>
+  <style>
+    :root {
+      --primary: #667eea;
+      --secondary: #764ba2;
+      --success: #2ecc71;
+      --warning: #f39c12;
+      --danger: #e74c3c;
+      --info: #3498db;
+      --dark: #2c3e50;
+      --light: #ecf0f1;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      min-height: 100vh;
+      padding: 20px;
+      color: #333;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    }
+    .card h2 {
+      color: var(--primary);
+      border-bottom: 3px solid var(--primary);
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    .card h3 { color: var(--dark); margin: 15px 0 10px; }
+    .header {
+      text-align: center;
+      color: white;
+      padding: 30px 0;
+    }
+    .header h1 { font-size: 2.5em; margin-bottom: 10px; }
+    .header .subtitle { opacity: 0.9; font-size: 1.2em; }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: bold;
+    }
+    .badge-success { background: var(--success); color: white; }
+    .badge-warning { background: var(--warning); color: white; }
+    .badge-danger { background: var(--danger); color: white; }
+    .badge-info { background: var(--info); color: white; }
+    code {
+      background: #f8f9fa;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'Consolas', monospace;
+      color: var(--secondary);
+    }
+    pre {
+      background: #2d3748;
+      color: #e2e8f0;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 10px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    th { background: var(--light); color: var(--dark); }
+    tr:hover { background: #f8f9fa; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
+    .stat-card {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .stat-card .value { font-size: 2em; font-weight: bold; }
+    .stat-card .label { opacity: 0.9; }
+    .product-card {
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 15px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .sale-tag {
+      background: var(--danger);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75em;
+      font-weight: bold;
+    }
+    .rating { color: #f1c40f; }
+    .trend-up { color: var(--success); }
+    .trend-down { color: var(--danger); }
+    .row-odd { background: #f8f9fa; }
+    .row-even { background: white; }
+    .highlight { background: #fff3cd; padding: 2px 6px; border-radius: 4px; }
+    .footer {
+      text-align: center;
+      color: white;
+      padding: 20px;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    {{# ===== HEADER ===== #}}
+    <div class="header">
+      <h1>TemplatePro v{{:app_version}}</h1>
+      <p class="subtitle">Complete Feature Showcase - Generated on {{:today}}</p>
+      <p style="margin-top:10px;">Welcome, <strong>{{:first_name}} {{:last_name}}</strong>!</p>
+    </div>
+
+    {{# ===== 1. VARIABLES & OUTPUT ===== #}}
+    <div class="card">
+      <h2>1. Variables & Output</h2>
+      <p>Basic variable output with <code>{<!-- -->{:variable}}</code> syntax:</p>
+      <table>
+        <tr><th>Expression</th><th>Output</th></tr>
+        <tr><td><code>first_name</code></td><td>{{:first_name}}</td></tr>
+        <tr><td><code>last_name</code></td><td>{{:last_name}}</td></tr>
+        <tr><td><code>app_name</code></td><td>{{:app_name}}</td></tr>
+        <tr><td><code>intvalue10</code></td><td>{{:intvalue10}}</td></tr>
+        <tr><td><code>floatvalue</code></td><td>{{:floatvalue}}</td></tr>
+        <tr><td><code>is_logged_in</code></td><td>{{:is_logged_in}}</td></tr>
+      </table>
+    </div>
+
+    {{# ===== 2. FILTERS ===== #}}
+    <div class="card">
+      <h2>2. Filters</h2>
+      <h3>String Filters</h3>
+      <table>
+        <tr><th>Filter</th><th>Input</th><th>Output</th></tr>
+        <tr><td><code>uppercase</code></td><td>{{:value2}}</td><td>{{:value2|uppercase}}</td></tr>
+        <tr><td><code>lowercase</code></td><td>{{:value2}}</td><td>{{:value2|lowercase}}</td></tr>
+        <tr><td><code>capitalize</code></td><td>{{:value2}}</td><td>{{:value2|capitalize}}</td></tr>
+        <tr><td><code>lpad,15</code></td><td>{{:first_name}}</td><td>[{{:first_name|lpad,15}}]</td></tr>
+        <tr><td><code>rpad,15</code></td><td>{{:first_name}}</td><td>[{{:first_name|rpad,15}}]</td></tr>
+      </table>
+
+      <h3>Chained Filters (v0.8+)</h3>
+      <p><code>value2|uppercase|lowercase</code> = "{{:value2|uppercase|lowercase}}"</p>
+      <p><code>first_name|uppercase|lpad,15</code> = [{{:first_name|uppercase|lpad,15}}]</p>
+
+      <h3>Date & Number Filters</h3>
+      <table>
+        <tr><th>Filter</th><th>Output</th></tr>
+        <tr><td><code>valuedate|datetostr</code></td><td>{{:valuedate|datetostr}}</td></tr>
+        <tr><td><code>valuedate|datetostr,"yyyy-mm-dd"</code></td><td>{{:valuedate|datetostr,"yyyy-mm-dd"}}</td></tr>
+        <tr><td><code>floatvalue|formatfloat,"#,##0.00"</code></td><td>{{:floatvalue|formatfloat,"#,##0.00"}}</td></tr>
+        <tr><td><code>floatvalue|round,-2</code></td><td>{{:floatvalue|round,-2}}</td></tr>
+      </table>
+    </div>
+
+    {{# ===== 3. SET VARIABLES ===== #}}
+    <div class="card">
+      <h2>3. Set Variables (v0.9+)</h2>
+      <p>Create variables with <code>{<!-- -->{set varname := expression}}</code></p>
+
+      {{set greeting := "Welcome to TemplatePro!"}}
+      {{set full_name := @(first_name + " " + last_name)}}
+      {{set base_price := 100}}
+      {{set quantity := 5}}
+      {{set subtotal := @(base_price * quantity)}}
+      {{set discount := @(subtotal * discount_rate)}}
+      {{set tax := @(subtotal * tax_rate)}}
+      {{set total := @(subtotal - discount + tax)}}
+
+      <table>
+        <tr><th>Variable</th><th>Expression</th><th>Value</th></tr>
+        <tr><td>greeting</td><td><code>"Welcome to TemplatePro!"</code></td><td>{{:greeting}}</td></tr>
+        <tr><td>full_name</td><td><code>@(first_name + " " + last_name)</code></td><td>{{:full_name}}</td></tr>
+        <tr><td>base_price</td><td><code>100</code></td><td>${{:base_price}}</td></tr>
+        <tr><td>quantity</td><td><code>5</code></td><td>{{:quantity}}</td></tr>
+        <tr><td>subtotal</td><td><code>@(base_price * quantity)</code></td><td>${{:subtotal}}</td></tr>
+        <tr><td>discount (15%)</td><td><code>@(subtotal * discount_rate)</code></td><td>-${{:discount}}</td></tr>
+        <tr><td>tax (21%)</td><td><code>@(subtotal * tax_rate)</code></td><td>+${{:tax}}</td></tr>
+        <tr><td><strong>total</strong></td><td><code>@(subtotal - discount + tax)</code></td><td><strong>${{:total}}</strong></td></tr>
+      </table>
+    </div>
+
+    {{# ===== 4. EXPRESSIONS ===== #}}
+    <div class="card">
+      <h2>4. Expressions</h2>
+      <p>Evaluate expressions with <code>{<!-- -->{@expression}}</code></p>
+
+      <h3>Math Operations</h3>
+      <table>
+        <tr><th>Expression</th><th>Result</th></tr>
+        <tr><td><code>intvalue10 * 3</code></td><td>{{@intvalue10 * 3}}</td></tr>
+        <tr><td><code>(intvalue10 + 5) * 2</code></td><td>{{@(intvalue10 + 5) * 2}}</td></tr>
+        <tr><td><code>sqrt(144)</code></td><td>{{@sqrt(144)}}</td></tr>
+        <tr><td><code>power(2, 10)</code></td><td>{{@power(2, 10)}}</td></tr>
+        <tr><td><code>Min(intvalue10, 5)</code></td><td>{{@Min(intvalue10, 5)}}</td></tr>
+        <tr><td><code>Max(intvalue10, 5)</code></td><td>{{@Max(intvalue10, 5)}}</td></tr>
+      </table>
+
+      <h3>String Functions</h3>
+      <table>
+        <tr><th>Function</th><th>Result</th></tr>
+        <tr><td><code>Length(value2)</code></td><td>{{@Length(value2)}}</td></tr>
+        <tr><td><code>Upper(first_name)</code></td><td>{{@Upper(first_name)}}</td></tr>
+        <tr><td><code>Left(value2, 5)</code></td><td>{{@Left(value2, 5)}}</td></tr>
+        <tr><td><code>Right(value2, 5)</code></td><td>{{@Right(value2, 5)}}</td></tr>
+      </table>
+    </div>
+
+    {{# ===== 5. CONDITIONALS ===== #}}
+    <div class="card">
+      <h2>5. Conditionals (if/elseif/else)</h2>
+
+      <h3>Simple If/Else</h3>
+      {{if is_logged_in}}
+      <p class="badge badge-success">User is logged in</p>
+      {{else}}
+      <p class="badge badge-warning">User is not logged in</p>
+      {{endif}}
+
+      <h3>ElseIf Chain (v0.9+)</h3>
+      {{set score := 85}}
+      <p>Score: {{:score}} - Grade:
+      {{if score|gt,90}}
+        <span class="badge badge-success">A - Excellent!</span>
+      {{elseif score|gt,80}}
+        <span class="badge badge-info">B - Good</span>
+      {{elseif score|gt,70}}
+        <span class="badge badge-warning">C - Average</span>
+      {{elseif score|gt,60}}
+        <span class="badge badge-warning">D - Below Average</span>
+      {{else}}
+        <span class="badge badge-danger">F - Needs Improvement</span>
+      {{endif}}
+      </p>
+
+      <h3>Boolean Conditions</h3>
+      <p>
+        Admin status:
+        {{if is_admin}}
+          <span class="badge badge-danger">Administrator</span>
+        {{else}}
+          <span class="badge badge-info">Regular User</span>
+        {{endif}}
+      </p>
+
+      <h3>Expression in Condition</h3>
+      {{if @(intvalue10 > 5)}}
+      <p>intvalue10 ({{:intvalue10}}) is <span class="highlight">greater than 5</span></p>
+      {{endif}}
+    </div>
+
+    {{# ===== 6. LOOPS ===== #}}
+    <div class="card">
+      <h2>6. Loops (for/endfor)</h2>
+
+      <h3>Loop with Pseudo-Variables</h3>
+      <p>Available: <code>@@index</code>, <code>@@odd</code>, <code>@@even</code>, <code>@@first</code>, <code>@@last</code></p>
+
+      <table>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Country</th>
+          <th>Row Type</th>
+        </tr>
+        {{for p in people}}
+        <tr class="{{if p.@@odd}}row-odd{{else}}row-even{{endif}}">
+          <td>{{:p.@@index}}</td>
+          <td>
+            {{if p.@@first}}<strong>{{endif}}
+            {{:p.name}}
+            {{if p.@@first}}</strong> (First!){{endif}}
+            {{if p.@@last}} (Last!){{endif}}
+          </td>
+          <td>{{:p.country}}</td>
+          <td>{{if p.@@odd}}Odd{{else}}Even{{endif}}</td>
+        </tr>
+        {{endfor}}
+      </table>
+    </div>
+
+    {{# ===== 7. MACROS ===== #}}
+    <div class="card">
+      <h2>7. Macros (v0.8+)</h2>
+      <p>Define reusable components with <code>{<!-- -->{macro name(params)}}</code> and call with <code>{<!-- -->{>name(args)}}</code></p>
+
+      {{macro statusBadge(text, type)}}
+      <span class="badge badge-{{:type}}">{{:text}}</span>
+      {{endmacro}}
+
+      {{macro productCard(name, price, rating)}}
+      <div class="product-card">
+        <h4>{{:name}}</h4>
+        <p style="color:var(--success);font-size:1.2em;font-weight:bold;">${{:price}}</p>
+        <p class="rating">{{:rating}} / 5.0</p>
+      </div>
+      {{endmacro}}
+
+      {{macro alertBox(message, type)}}
+      <div style="padding:15px;border-radius:8px;margin:10px 0;{{if type|eq,"success"}}background:#d4edda;border:1px solid #c3e6cb;color:#155724;{{elseif type|eq,"warning"}}background:#fff3cd;border:1px solid #ffeeba;color:#856404;{{elseif type|eq,"danger"}}background:#f8d7da;border:1px solid #f5c6cb;color:#721c24;{{else}}background:#d1ecf1;border:1px solid #bee5eb;color:#0c5460;{{endif}}">
+        {{:message}}
+      </div>
+      {{endmacro}}
+
+      <h3>Status Badges</h3>
+      <p>
+        {{>statusBadge("Active", "success")}}
+        {{>statusBadge("Pending", "warning")}}
+        {{>statusBadge("Cancelled", "danger")}}
+        {{>statusBadge("Info", "info")}}
+      </p>
+
+      <h3>Alert Boxes</h3>
+      {{>alertBox("Operation completed successfully!", "success")}}
+      {{>alertBox("Please review your settings.", "warning")}}
+      {{>alertBox("An error occurred during processing.", "danger")}}
+      {{>alertBox("This is an informational message.", "info")}}
+
+      <h3>Product Cards Grid</h3>
+      <div class="grid">
+        {{>productCard("Wireless Mouse", "29.99", "4.5")}}
+        {{>productCard("Mechanical Keyboard", "89.99", "4.8")}}
+        {{>productCard("USB Hub", "19.99", "4.2")}}
+      </div>
+    </div>
+
+    {{# ===== 8. NESTED OBJECTS ===== #}}
+    <div class="card">
+      <h2>8. Nested Objects</h2>
+      <p>Access nested properties with dot notation: <code>product.Category.Name</code></p>
+
+      <h3>Products with Categories</h3>
+      <div class="grid">
+        {{for prod in products}}
+        <div class="product-card">
+          {{if prod.OnSale}}<span class="sale-tag">SALE!</span>{{endif}}
+          <h4>{{:prod.Name}}</h4>
+          <p style="color:#666;font-size:0.9em;">{{:prod.Category.Name}}</p>
+          <p style="font-size:1.3em;color:var(--success);font-weight:bold;">${{:prod.Price}}</p>
+          <p class="rating">Rating: {{:prod.Rating}}/5</p>
+          <p style="font-size:0.85em;color:#888;">Stock: {{:prod.Stock}} units</p>
+        </div>
+        {{endfor}}
+      </div>
+    </div>
+
+    {{# ===== 9. STATISTICS DASHBOARD ===== #}}
+    <div class="card">
+      <h2>9. Statistics Dashboard</h2>
+      <div class="grid">
+        {{for stat in stats}}
+        <div class="stat-card" style="background:{{:stat.Color}};">
+          <div class="value">{{:stat.Value}}</div>
+          <div class="label">{{:stat.Title}}</div>
+          <div style="margin-top:8px;">
+            {{if stat.Trend|gt,0}}
+              <span class="trend-up" style="color:#90EE90;">+{{:stat.Trend}}%</span>
+            {{else}}
+              <span class="trend-down" style="color:#FFB6C1;">{{:stat.Trend}}%</span>
+            {{endif}}
+          </div>
+        </div>
+        {{endfor}}
+      </div>
+    </div>
+
+    {{# ===== 10. COMPARISON FILTERS ===== #}}
+    <div class="card">
+      <h2>10. Comparison Filters</h2>
+      <p>Use filters in conditions: <code>eq</code>, <code>ne</code>, <code>gt</code>, <code>lt</code>, <code>ge</code>, <code>le</code></p>
+
+      <h3>Product Stock Status</h3>
+      <table>
+        <tr><th>Product</th><th>Stock</th><th>Status</th></tr>
+        {{for prod in products}}
+        <tr>
+          <td>{{:prod.Name}}</td>
+          <td>{{:prod.Stock}}</td>
+          <td>
+            {{if prod.Stock|gt,200}}
+              {{>statusBadge("Abundant", "success")}}
+            {{elseif prod.Stock|gt,100}}
+              {{>statusBadge("Good", "info")}}
+            {{elseif prod.Stock|gt,50}}
+              {{>statusBadge("Low", "warning")}}
+            {{else}}
+              {{>statusBadge("Critical", "danger")}}
+            {{endif}}
+          </td>
+        </tr>
+        {{endfor}}
+      </table>
+    </div>
+
+    {{# ===== 11. CATEGORIES ===== #}}
+    <div class="card">
+      <h2>11. Categories List</h2>
+      <p>Iterating over the categories list:</p>
+
+      <div style="background:#f8f9fa;padding:15px;border-radius:8px;">
+        {{for cat in categories}}
+          <span class="badge badge-info" style="margin:2px;">{{:cat.Name}}</span>
+        {{endfor}}
+      </div>
+    </div>
+
+    {{# ===== FOOTER ===== #}}
+    <div class="footer">
+      <p>TemplatePro v{{:app_version}} - A powerful template engine for Delphi</p>
+      <p style="margin-top:10px;">Copyright 2016-2026 Daniele Teti</p>
+    </div>
+
+  </div>
+</body>
+</html>

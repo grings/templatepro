@@ -1,0 +1,7 @@
+{{# Test SQL IN clause generation from guide #}}
+{{macro inList(items)}}
+({{for item in items}}{{:item.PropInt}}{{if !item.@@last}},{{endif}}{{endfor}})
+{{endmacro}}
+
+SELECT * FROM products
+WHERE category_id IN {{>inList(objects)}}

@@ -2,12 +2,150 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   {{block "title"}}<title>TemplatePro App</title>{{endblock}}
+  {{block "meta"}}
+  <meta name="description" content="Built with TemplatePro - A powerful template engine for Delphi">
+  {{endblock}}
   {{block "styles"}}
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-    header { background: #3498db; color: white; padding: 10px 20px; margin: -20px -20px 20px -20px; }
-    footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; }
+    :root {
+      --primary: #667eea;
+      --primary-dark: #5a67d8;
+      --secondary: #764ba2;
+      --success: #48bb78;
+      --warning: #ed8936;
+      --danger: #f56565;
+      --info: #4299e1;
+      --light: #f7fafc;
+      --dark: #2d3748;
+      --gray: #718096;
+      --border: #e2e8f0;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background: var(--light);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 0;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 1.5em;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav {
+      display: flex;
+      gap: 25px;
+    }
+    .nav a {
+      color: rgba(255,255,255,0.9);
+      transition: color 0.3s;
+    }
+    .nav a:hover {
+      color: white;
+      text-decoration: none;
+    }
+    main {
+      flex: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 30px;
+      width: 100%;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      padding: 25px;
+      margin-bottom: 25px;
+    }
+    .card h2 {
+      color: var(--primary);
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border);
+    }
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      text-decoration: none;
+    }
+    footer {
+      background: var(--dark);
+      color: white;
+      padding: 30px;
+      text-align: center;
+      margin-top: auto;
+    }
+    footer a {
+      color: rgba(255,255,255,0.8);
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 15px;
+    }
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+      .nav {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .footer-links {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
   </style>
   {{endblock}}
 </head>
@@ -15,22 +153,52 @@
 
 {{block "header"}}
 <header>
-  <h2>TemplatePro Demo</h2>
+  <div class="header-content">
+    <div class="logo">
+      TemplatePro Demo
+    </div>
+    <nav class="nav">
+      <a href="#">Home</a>
+      <a href="#">Features</a>
+      <a href="#">Documentation</a>
+      <a href="#">Examples</a>
+    </nav>
+  </div>
 </header>
 {{endblock}}
 
+<main>
 {{block "content"}}
-<p>Default content - override this block in child templates.</p>
+<div class="card">
+  <h2>Welcome</h2>
+  <p>This is the default content block. Override this in child templates using:</p>
+  <pre style="background:#f8f9fa;padding:15px;border-radius:8px;margin-top:15px;overflow-x:auto;">
+{<!-- -->{extends "layout_base.html"}}
+
+{<!-- -->{block "content"}}
+  Your content here...
+{<!-- -->{endblock}}</pre>
+</div>
 {{endblock}}
+</main>
 
 {{block "footer"}}
 <footer>
-  <p>&copy; 2025 TemplatePro - Template Inheritance Demo</p>
+  <div class="footer-links">
+    <a href="#">Documentation</a>
+    <a href="#">GitHub</a>
+    <a href="#">Support</a>
+    <a href="#">License</a>
+  </div>
+  <p>&copy; 2026 TemplatePro - A powerful template engine for Delphi</p>
+  <p style="margin-top:10px;opacity:0.7;font-size:0.9em;">Created by Daniele Teti</p>
 </footer>
 {{endblock}}
 
 {{block "scripts"}}
-<script>console.log('Base template loaded');</script>
+<script>
+  console.log('TemplatePro - Base template loaded');
+</script>
 {{endblock}}
 
 </body>

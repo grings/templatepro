@@ -1,0 +1,5 @@
+<div class="user-badge">
+  <img src="{{:avatar}}" alt="{{:name}}">
+  <span>{{:name}}</span>
+  <small>{{:role}}</small>
+</div>

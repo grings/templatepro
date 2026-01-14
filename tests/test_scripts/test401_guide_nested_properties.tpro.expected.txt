@@ -1,0 +1,6 @@
+﻿<div class="data-card">
+  <h2>value1.1</h2>
+  <p>Value2: value2.1</p>
+  <p>Value3: value3.1</p>
+  <p>Int: 1</p>
+</div>

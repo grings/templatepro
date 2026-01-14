@@ -5,7 +5,7 @@ All notable changes to TemplatePro will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.9.0] - 2025-12
+## [1.0] - 2026-01
 
 ### Added
 - **Multi-level template inheritance**: Templates can now extend other templates that themselves extend others, creating unlimited inheritance chains (A → B → C → ...)
@@ -16,19 +16,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   {{set total := @(price * qty)}}
   {{set greeting := "Hello"}}
   ```
+- **`{{elseif}}`/`{{elif}}` support**: Multiple conditional branches without nesting
+  ```
+  {{if status|eq,"premium"}}Premium{{elseif status|eq,"standard"}}Standard{{else}}Basic{{endif}}
+  ```
+- **For-else construct**: Execute alternative content when a collection is empty (Jinja2-style)
+  ```
+  {{for item in items}}{{:item.name}}{{else}}No items found{{endfor}}
+  ```
 - **Dynamic includes**: Include templates using variable names
   ```
   {{include :templateName}}
   ```
 - **Include with variable mapping**: Pass variables to included templates
   ```
-  {{include "card.tpro" => title=product.name, price=product.cost}}
+  {{include "card.tpro", title=product.name, price=product.cost}}
   ```
 - **Cross-platform line ending handling**: New `OutputLineEnding` property for consistent output across platforms
+- **`CompileFromString` method**: Convenience method for compiling templates from strings
+
+### Changed
+- **Performance improvements**:
+  - ~50% faster compiled template loading using TBufferedFileStream
+  - Optimized token deserialization with direct memory reads
 
 ### Fixed
+- **Nested property resolution in iterators**: Fixed `{{:item.Category.Name}}` not working inside `{{for}}` loops
 - Expression evaluation with field properties in dataset iteration
 - Support for dotted identifiers in expressions during field iteration
+- `round` filter now accepts integer parameters
 
 ## [0.8.0] - 2024
 
@@ -125,6 +141,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 
 ## Migration Guide
+
+### From 0.9.x to 1.0
+
+No breaking changes. New features are additive:
+
+1. **For-else**: Existing `{{for}}` loops work unchanged; add `{{else}}` before `{{endfor}}` for empty collection handling
+2. **Elseif/elif**: New syntax for cleaner multi-branch conditionals
+3. **Performance**: Compiled template loading is faster with no code changes required
 
 ### From 0.8.x to 0.9.x
 

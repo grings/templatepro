@@ -1,0 +1,5 @@
+{{# Test set with filters from guide #}}
+{{set formattedName := value2|uppercase}}
+{{set displayCode := value2|lowercase|lpad,15}}
+Name: {{:formattedName}}
+Code: {{:displayCode}}

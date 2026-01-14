@@ -1,6 +1,6 @@
 ﻿// ***************************************************************************
 //
-// Copyright (c) 2016-2025 Daniele Teti
+// Copyright (c) 2016-2026 Daniele Teti
 //
 // https://github.com/danieleteti/templatepro
 //
@@ -187,6 +187,13 @@ type
   public
     destructor Destroy; override;
     function Compile(const aTemplate: string; const aFileNameRefPath: String = ''): ITProCompiledTemplate; overload;
+    /// <summary>
+    /// Compiles a template directly from a string.
+    /// Useful for templates that don't come from files (e.g., from database, strings, etc.)
+    /// </summary>
+    /// <param name="aTemplateString">The template source code as a string</param>
+    /// <returns>A compiled template ready for data binding and rendering</returns>
+    function CompileFromString(const aTemplateString: string): ITProCompiledTemplate;
     constructor Create(aEncoding: TEncoding = nil); overload;
     class function CompileAndRender(const aTemplate: string; const VarNames: TArray<String>; const VarValues: TArray<TValue>): String;
   end;
@@ -396,6 +403,10 @@ begin
         begin
           lExtendedValue := 0;
           case aParameters[0].ParType of
+            fptInteger:
+              begin
+                lExtendedValue := aParameters[0].ParIntValue;
+              end;
             fptFloat:
               begin
                 lExtendedValue := aParameters[0].ParFloatValue;
@@ -1224,6 +1235,11 @@ begin
   end;
 end;
 
+function TTProCompiler.CompileFromString(const aTemplateString: string): ITProCompiledTemplate;
+begin
+  Result := Compile(aTemplateString, '');
+end;
+
 class function TTProCompiler.CompileAndRender(const aTemplate: String; const VarNames: TArray<String>;
   const VarValues: TArray<TValue>): String;
 var
@@ -1305,6 +1321,7 @@ var
   lIncludeEndToken: TToken;
   lIsFieldIteration: Integer;
   lIncludeToken: TToken;
+  lBlockStack: string;  // Stack of 'F' (for) and 'I' (if) to track nesting for for-else
 begin
   aTokens.Add(TToken.Create(ttSystemVersion, TEMPLATEPRO_VERSION, ''));
   lLastToken := ttEOF;
@@ -1315,6 +1332,7 @@ begin
   fCurrentLine := 1;
   lIfStatementCount := -1;
   lForStatementCount := -1;
+  lBlockStack := '';  // Empty stack at start
   SetLength(lElseIfPendingCounts, 0);
   fInputString := aTemplate;
   lStartVerbatim := 0;
@@ -1511,6 +1529,7 @@ begin
             lIsFieldIteration := 1;
           end;
           aTokens.Add(TToken.Create(lLastToken, lIdentifier, lIteratorName, -1, lIsFieldIteration));
+          lBlockStack := lBlockStack + 'F';  // Push 'F' for for-else tracking
           lStartVerbatim := fCharIndex;
         end
         else if MatchSymbol('endfor') then { endfor }
@@ -1525,6 +1544,8 @@ begin
           lLastToken := ttEndFor;
           aTokens.Add(TToken.Create(lLastToken, '', ''));
           Dec(lForStatementCount);
+          if Length(lBlockStack) > 0 then
+            lBlockStack := Copy(lBlockStack, 1, Length(lBlockStack) - 1);  // Pop from block stack
           lStartVerbatim := fCharIndex;
         end
         else if MatchSymbol('continue') then { continue }
@@ -1677,6 +1698,8 @@ begin
           aTokens.Add(TToken.Create(lLastToken, '', ''));
 
           Dec(lIfStatementCount);
+          if Length(lBlockStack) > 0 then
+            lBlockStack := Copy(lBlockStack, 1, Length(lBlockStack) - 1);  // Pop from block stack
           lStartVerbatim := fCharIndex;
         end
         else if MatchSymbol('if') then
@@ -1696,6 +1719,7 @@ begin
             lLastToken := ttIfThen;
             aTokens.Add(TToken.Create(lLastToken, '', ''));
             Inc(lIfStatementCount);
+            lBlockStack := lBlockStack + 'I';  // Push 'I' for for-else tracking
             // Push 0 onto elseif pending stack for this if-level
             SetLength(lElseIfPendingCounts, Length(lElseIfPendingCounts) + 1);
             lElseIfPendingCounts[High(lElseIfPendingCounts)] := 0;
@@ -1727,6 +1751,7 @@ begin
             lLastToken := ttIfThen;
             aTokens.Add(TToken.Create(lLastToken, '' { lIdentifier } , ''));
             Inc(lIfStatementCount);
+            lBlockStack := lBlockStack + 'I';  // Push 'I' for for-else tracking
             // Push 0 onto elseif pending stack for this if-level
             SetLength(lElseIfPendingCounts, Length(lElseIfPendingCounts) + 1);
             lElseIfPendingCounts[High(lElseIfPendingCounts)] := 0;
@@ -1810,8 +1835,19 @@ begin
           if not MatchEndTag then
             Error('Expected closing tag for "else"');
 
-          lLastToken := ttElse;
-          aTokens.Add(TToken.Create(lLastToken, '', ''));
+          // Check if we're inside a for or if block
+          if (Length(lBlockStack) > 0) and (lBlockStack[Length(lBlockStack)] = 'F') then
+          begin
+            // Inside a for block - this is a for-else
+            lLastToken := ttForElse;
+            aTokens.Add(TToken.Create(lLastToken, '', ''));
+          end
+          else
+          begin
+            // Inside an if block or no context - this is a regular else
+            lLastToken := ttElse;
+            aTokens.Add(TToken.Create(lLastToken, '', ''));
+          end;
           lStartVerbatim := fCharIndex;
         end
         else if MatchSymbol('include') then { include }
@@ -2212,6 +2248,8 @@ var
   lForInStack: TStack<Int64>;
   lContinueStack: TStack<Int64>;
   lIfStatementStack: TStack<TIfThenElseIndex>;
+  lForElseStack: TStack<TForElseIndex>;
+  lForElseItem: TForElseIndex;
   I, J: Int64;
   lToken: TToken;
   lForAddress: Int64;
@@ -2245,6 +2283,8 @@ begin
         try
           lIfStatementStack := TStack<TIfThenElseIndex>.Create;
           try
+            lForElseStack := TStack<TForElseIndex>.Create;
+            try
             // First pass: collect all blocks with their levels
             for I := 0 to aTokens.Count - 1 do
             begin
@@ -2264,6 +2304,10 @@ begin
                       Error('Continue stack corrupted');
                     end;
                     lForInStack.Push(I);
+                    // Initialize for-else tracking
+                    lForElseItem.ForIndex := I;
+                    lForElseItem.ElseIndex := -1;  // -1 means no else
+                    lForElseStack.Push(lForElseItem);
                   end;
 
                 ttEndFor:
@@ -2272,7 +2316,21 @@ begin
                     lForAddress := lForInStack.Pop;
                     lToken := aTokens[lForAddress];
                     lToken.Ref1 := I;
+                    
+                    { Handle for-else linking }
+                    lForElseItem := lForElseStack.Pop;
+                    { Encode isFieldIteration (bit 0) and elseAddress (bits 1+) in Ref2 }
+                    { elseAddress + 1 is stored, so 0 means no else (-1 + 1 = 0) }
+                    lToken.Ref2 := ((lForElseItem.ElseIndex + 1) shl 1) or (lToken.Ref2 and 1);
                     aTokens[lForAddress] := lToken;
+
+                    { If there's an else, set ttForElse.Ref2 --> endfor }
+                    if lForElseItem.ElseIndex > -1 then
+                    begin
+                      lToken := aTokens[lForElseItem.ElseIndex];
+                      lToken.Ref2 := I;  // ttForElse.Ref2 points to endfor
+                      aTokens[lForElseItem.ElseIndex] := lToken;
+                    end;
 
                     { ttEndFor.Ref1 --> for }
                     lToken := aTokens[I];
@@ -2292,6 +2350,14 @@ begin
                 ttContinue:
                   begin
                     lContinueStack.Push(I);
+                  end;
+
+                ttForElse:
+                  begin
+                    // Update the for-else tracking with the else index
+                    lForElseItem := lForElseStack.Pop;
+                    lForElseItem.ElseIndex := I;
+                    lForElseStack.Push(lForElseItem);
                   end;
 
                 ttBlock:
@@ -2500,6 +2566,9 @@ begin
             if lBlockStack.Count > 0 then
             begin
               Error('Unbalanced "block" - expected "endblock" for block "' + lBlockStack.Peek + '"');
+            end;
+            finally
+              lForElseStack.Free;
             end;
           finally
             lIfStatementStack.Free;
@@ -3325,35 +3394,42 @@ class function TTProCompiledTemplate.CreateFromFile(const FileName: String): ITP
 var
   lBR: TBinaryReader;
   lTokens: TList<TToken>;
+  lBufferedStream: TBufferedFileStream;
 begin
-  lBR := TBinaryReader.Create(TBytesStream.Create(TFile.ReadAllBytes(FileName)), nil, True);
+  // Use TBufferedFileStream for ~50% faster loading compared to TFile.ReadAllBytes + TBytesStream
+  lBufferedStream := TBufferedFileStream.Create(FileName, fmOpenRead or fmShareDenyNone, 65536);
   try
-    lTokens := TList<TToken>.Create;
+    lBR := TBinaryReader.Create(lBufferedStream, nil, False); // False = don't own stream
     try
+      lTokens := TList<TToken>.Create;
       try
-        while True do
-        begin
-          lTokens.Add(TToken.CreateFromBytes(lBR));
-          if lTokens.Last.TokenType = ttEOF then
+        try
+          while True do
           begin
-            Break;
+            lTokens.Add(TToken.CreateFromBytes(lBR));
+            if lTokens.Last.TokenType = ttEOF then
+            begin
+              Break;
+            end;
+          end;
+        except
+          on E: Exception do
+          begin
+            raise ETProRenderException.CreateFmt
+              ('Cannot load compiled template from [FILE: %s][CLASS: %s][MSG: %s] - consider to delete templates cache.',
+              [FileName, E.ClassName, E.Message])
           end;
         end;
+        Result := TTProCompiledTemplate.Create(lTokens);
       except
-        on E: Exception do
-        begin
-          raise ETProRenderException.CreateFmt
-            ('Cannot load compiled template from [FILE: %s][CLASS: %s][MSG: %s] - consider to delete templates cache.',
-            [FileName, E.ClassName, E.Message])
-        end;
+        lTokens.Free;
+        raise;
       end;
-      Result := TTProCompiledTemplate.Create(lTokens);
-    except
-      lTokens.Free;
-      raise;
+    finally
+      lBR.Free;
     end;
   finally
-    lBR.Free;
+    lBufferedStream.Free;
   end;
 end;
 
@@ -3425,6 +3501,7 @@ var
   lParentBlockAddr: Int64;
   // Variables moved from inline declarations for Delphi 10 Seattle compatibility
   lIsFieldIteration: Boolean;
+  lForElseAddress: Int64;  // Address of else block in for-else construct
   lDataSet: TDataSet;
   lVarPair: TPair<string, TVarDataSource>;
   lSavedVars: TIncludeSavedVars;
@@ -3460,7 +3537,9 @@ begin
         ttFor:
           begin
             lForLoopItem := PeekLoop;
-            lIsFieldIteration := fTokens[lIdx].Ref2 = 1;
+            // Decode isFieldIteration (bit 0) and elseAddress (bits 1+) from Ref2
+            lIsFieldIteration := (fTokens[lIdx].Ref2 and 1) = 1;
+            lForElseAddress := (fTokens[lIdx].Ref2 shr 1) - 1;  // -1 means no else
             if LoopStackIsEmpty or (lForLoopItem.LoopExpression <> fTokens[lIdx].Value1) then
             begin // push a new loop stack item
               SplitVariableName(fTokens[lIdx].Value1, lVarName, lVarMember);
@@ -3503,7 +3582,11 @@ begin
                   if lForLoopItem.IteratorPosition >= lForLoopItem.FieldsCount then
                   begin
                     lForLoopItem.EOF := True;
-                    lIdx := fTokens[lIdx].Ref1; // skip to endfor
+                    // Check if empty from start (first iteration, no fields)
+                    if (lForLoopItem.IteratorPosition = 0) and (lForElseAddress > -1) then
+                      lIdx := lForElseAddress + 1  // jump to else content
+                    else
+                      lIdx := fTokens[lIdx].Ref1;  // skip to endfor
                     Continue;
                   end;
                 end
@@ -3523,7 +3606,11 @@ begin
                   if TDataSet(lVariable.VarValue.AsObject).Eof then
                   begin
                     lForLoopItem.EOF := True;
-                    lIdx := fTokens[lIdx].Ref1; // skip to endfor
+                    // Check if empty from start (first iteration, Eof immediately after First)
+                    if (lForLoopItem.IteratorPosition = 0) and (lForElseAddress > -1) then
+                      lIdx := lForElseAddress + 1  // jump to else content
+                    else
+                      lIdx := fTokens[lIdx].Ref1;  // skip to endfor
                     Continue;
                   end;
                 end;
@@ -3536,8 +3623,19 @@ begin
                 lCount := lWrapped.Count;
                 if lForLoopItem.IteratorPosition = -1 then
                   lForLoopItem.TotalCount := lCount;
-                if (lCount = 0) or (lForLoopItem.IteratorPosition = lCount - 1) then
+                if lCount = 0 then
                 begin
+                  // Collection is empty from start - execute else if present
+                  lForLoopItem.EOF := True;
+                  if lForElseAddress > -1 then
+                    lIdx := lForElseAddress + 1  // jump to else content
+                  else
+                    lIdx := fTokens[lIdx].Ref1;  // skip to endfor
+                  Continue;
+                end
+                else if lForLoopItem.IteratorPosition = lCount - 1 then
+                begin
+                  // Exhausted all items - skip else, go to endfor
                   lForLoopItem.EOF := True;
                   lIdx := fTokens[lIdx].Ref1; // skip to endfor
                   Continue;
@@ -3556,17 +3654,33 @@ begin
                 case lJValue.Typ of
                   jdtNone:
                     begin
+                      // Path doesn't exist - treat as empty, execute else if present
                       lForLoopItem.EOF := True;
-                      lIdx := fTokens[lIdx].Ref1; // skip to endfor
+                      if lForElseAddress > -1 then
+                        lIdx := lForElseAddress + 1  // jump to else content
+                      else
+                        lIdx := fTokens[lIdx].Ref1;  // skip to endfor
                       Continue;
                     end;
 
                   jdtArray:
                     begin
+                      lCount := lJObj.Path[lForLoopItem.FullPath].ArrayValue.Count;
                       if lForLoopItem.IteratorPosition = -1 then
-                        lForLoopItem.TotalCount := lJObj.Path[lForLoopItem.FullPath].ArrayValue.Count;
-                      if lForLoopItem.IteratorPosition = lJObj.Path[lForLoopItem.FullPath].ArrayValue.Count - 1 then
+                        lForLoopItem.TotalCount := lCount;
+                      if lCount = 0 then
                       begin
+                        // Array is empty from start - execute else if present
+                        lForLoopItem.EOF := True;
+                        if lForElseAddress > -1 then
+                          lIdx := lForElseAddress + 1  // jump to else content
+                        else
+                          lIdx := fTokens[lIdx].Ref1;  // skip to endfor
+                        Continue;
+                      end
+                      else if lForLoopItem.IteratorPosition = lCount - 1 then
+                      begin
+                        // Exhausted all items - skip else, go to endfor
                         lForLoopItem.EOF := True;
                         lIdx := fTokens[lIdx].Ref1; // skip to endfor
                         Continue;
@@ -3609,6 +3723,12 @@ begin
               lIdx := fTokens[lIdx].Ref1; // goto loop
               Continue;
             end;
+          end;
+        ttForElse:
+          begin
+            // During normal loop execution, skip the else block and jump to endfor
+            lIdx := fTokens[lIdx].Ref2;  // ttForElse.Ref2 points to endfor
+            Continue;
           end;
         ttIfThen:
           begin
@@ -4100,7 +4220,7 @@ begin
           begin
             if lCurrentIterator.FullPath.IsEmpty then
             begin
-              Result := TTProRTTIUtils.GetProperty(WrapAsList(lVariable.VarValue.AsObject)
+              Result := GetTValueFromPath(WrapAsList(lVariable.VarValue.AsObject)
                 .GetItem(lCurrentIterator.IteratorPosition), lVarMembers)
             end
             else
@@ -4109,9 +4229,9 @@ begin
               lValue := GetTValueFromPath(lVariable.VarValue.AsObject, lFullPath);
               lTmpList := WrapAsList(lValue.AsObject);
               if Assigned(lTmpList)then
-                Result := TTProRTTIUtils.GetProperty(lTmpList.GetItem(lCurrentIterator.IteratorPosition), lVarMembers)
+                Result := GetTValueFromPath(lTmpList.GetItem(lCurrentIterator.IteratorPosition), lVarMembers)
               else
-                Result := TTProRTTIUtils.GetProperty(lValue.AsObject, lVarMembers)
+                Result := GetTValueFromPath(lValue.AsObject, lVarMembers)
             end;
           end
           else
@@ -4125,9 +4245,9 @@ begin
               lValue := GetTValueFromPath(lVariable.VarValue.AsObject, lCurrentIterator.FullPath);
               lTmpList := WrapAsList(lValue.AsObject);
               if Assigned(lTmpList)then
-                Result := TTProRTTIUtils.GetProperty(lTmpList.GetItem(lCurrentIterator.IteratorPosition), lVarMembers)
+                Result := GetTValueFromPath(lTmpList.GetItem(lCurrentIterator.IteratorPosition), lVarMembers)
               else
-                Result := TTProRTTIUtils.GetProperty(lValue.AsObject, lVarMembers)
+                Result := GetTValueFromPath(lValue.AsObject, lVarMembers)
             end;
           end;
         end

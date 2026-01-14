@@ -1,0 +1,12 @@
+{{# Test SQL dynamic INSERT from guide #}}
+INSERT INTO customers (
+  name,
+  email
+  {{if value1}}, phone{{endif}}
+  {{if value2}}, city{{endif}}
+) VALUES (
+  :name,
+  :email
+  {{if value1}}, :phone{{endif}}
+  {{if value2}}, :city{{endif}}
+)

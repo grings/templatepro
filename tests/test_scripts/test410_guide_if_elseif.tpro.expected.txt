@@ -1,0 +1,3 @@
+﻿<div class="status">
+      <span class="status medium">Medium</span>
+  </div>

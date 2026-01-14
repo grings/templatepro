@@ -1,0 +1,6 @@
+﻿SELECT id, name
+FROM users
+WHERE status = 'ACTIVE'
+ORDER BY DANIELE2
+LIMIT 10
+OFFSET 10

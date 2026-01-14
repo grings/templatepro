@@ -1,0 +1,6 @@
+﻿<ul>
+<li>1. value1.1</li>
+<li>2. value1.2</li>
+<li>3. value1.3</li>
+</ul>
+<p>Total items: 3</p>

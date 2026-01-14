@@ -1,0 +1,10 @@
+{{# Test @@first and @@last from guide #}}
+<div class="timeline">
+{{for item in objects}}
+  <div class="timeline-item{{if item.@@first}} timeline-start{{endif}}{{if item.@@last}} timeline-end{{endif}}">
+    {{if item.@@first}}<span class="badge">First</span>{{endif}}
+    <h4>{{:item.Prop1}} - {{:item.PropInt}}</h4>
+    {{if item.@@last}}<span class="badge">Last</span>{{endif}}
+  </div>
+{{endfor}}
+</div>

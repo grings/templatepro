@@ -1,0 +1,10 @@
+{{# Test for loop with pseudo-variables from guide #}}
+<table class="data-table">
+{{for item in objects}}
+  <tr class="{{if item.@@odd}}odd{{else}}even{{endif}}">
+    <td class="row-number">{{:item.@@index}}.</td>
+    <td>{{:item.Prop1}}</td>
+    <td>{{:item.PropInt}}</td>
+  </tr>
+{{endfor}}
+</table>
