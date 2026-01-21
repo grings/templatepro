@@ -1,0 +1,5 @@
+﻿** Nested Loop in JSON Array **
+Bruce's devices: smartphone dumbphone
+Reed's devices: dumbphone
+Scott's devices: smartphone desktop
+Daniele's devices: smartphone dumbphone

@@ -1,0 +1,15 @@
+{{# Test looping over a JSON array passed directly as variable #}}
+** JSON Array Loop **
+{{for person in jsonarray}}
+{{:person.@@index}}) {{:person.first_name}} {{:person.last_name}} (age {{:person.age}})
+{{endfor}}
+
+** With Pseudo Variables **
+{{for p in jsonarray}}
+{{:p.first_name}}: {{if p.@@odd}}ODD{{endif}}{{if p.@@even}}EVEN{{endif}}{{if p.@@first}} [FIRST]{{endif}}{{if p.@@last}} [LAST]{{endif}}
+{{endfor}}
+
+** Accessing Nested Objects **
+{{for person in jsonarray}}
+{{:person.first_name}} drives a {{:person.car.brand}} {{:person.car.model}}
+{{endfor}}

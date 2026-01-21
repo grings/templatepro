@@ -82,3 +82,4 @@ samples/playground/bin/output/last_output.html
 /tmpclaude-*
 tmpclaude-*
 /tests/bin/*.tpc
+*.tpc

@@ -230,6 +230,48 @@ begin
   end;
 end;
 
+procedure TestExpressionWithFilters;
+var
+  lCompiler: TTProCompiler;
+  lCompiledTmpl: ITProCompiledTemplate;
+  lOutput: string;
+  lExpected: string;
+begin
+  lCompiler := TTProCompiler.Create();
+  try
+    // Test expression with single filter (use template's FormatSettings)
+    lCompiledTmpl := lCompiler.Compile('Total: {{@price * qty|formatfloat,"0.00"}}');
+    lCompiledTmpl.SetData('price', 100);
+    lCompiledTmpl.SetData('qty', 3);
+    lOutput := lCompiledTmpl.Render;
+    lExpected := 'Total: ' + FormatFloat('0.00', 300, lCompiledTmpl.FormatSettings^);
+    Assert(lOutput = lExpected, 'Expected "' + lExpected + '", got: ' + lOutput);
+
+    // Test expression with multiple chained filters
+    lCompiledTmpl := lCompiler.Compile('Code: {{@value * 10|formatfloat,"0"|lpad,8,"0"}}');
+    lCompiledTmpl.SetData('value', 12);
+    lOutput := lCompiledTmpl.Render;
+    Assert(lOutput = 'Code: 00000120', 'Expected "Code: 00000120", got: ' + lOutput);
+
+    // Test expression with uppercase filter
+    lCompiledTmpl := lCompiler.Compile('Name: {{@Upper(name)|lpad,10}}');
+    lCompiledTmpl.SetData('name', 'test');
+    lOutput := lCompiledTmpl.Render;
+    Assert(lOutput = 'Name:       TEST', 'Expected "Name:       TEST", got: ' + lOutput);
+
+    // Test expression without filter (regression test)
+    lCompiledTmpl := lCompiler.Compile('Sum: {{@a + b}}');
+    lCompiledTmpl.SetData('a', 10);
+    lCompiledTmpl.SetData('b', 20);
+    lOutput := lCompiledTmpl.Render;
+    Assert(lOutput = 'Sum: 30', 'Expected "Sum: 30", got: ' + lOutput);
+
+    WriteLn('TestExpressionWithFilters'.PadRight(45) + ' : OK');
+  finally
+    lCompiler.Free;
+  end;
+end;
+
 procedure TestExpressionInIf;
 var
   lCompiler: TTProCompiler;
@@ -689,6 +731,7 @@ var
   lExpectedExceptionMessage: string;
   lExpectedOutput: string;
   lJSONArr: TJsonArray;
+  lJSONArrEmpty: TJsonArray;
   lJSONObj: TJsonObject;
   lJSONObj2: TJsonObject;
   lCustomers: TDataSet;
@@ -822,6 +865,7 @@ begin
         lCompiledTemplate.SetData('nullable_datetime', TValue.From<NullableTDateTime>(EncodeDateTime(2025, 12, 30, 14, 30, 45, 0)));
         lCompiledTemplate.SetData('nullable_datetime_null', TValue.From<NullableTDateTime>(nil));
         lJSONArr := TJsonBaseObject.ParseFromFile(TPath.Combine(lTestScriptsFolder, 'people.json')) as TJsonArray;
+        lJSONArrEmpty := TJsonArray.Create;
         try
           lJSONObj := TJsonObject.Create;
           try
@@ -900,6 +944,8 @@ begin
                                           lCompiledTemplate.SetData('objectsb', lItemsWithFalsy);
                                           lCompiledTemplate.SetData('jsonobj', lJSONObj);
                                           lCompiledTemplate.SetData('json2', lJSONObj2);
+                                          lCompiledTemplate.SetData('jsonarray', lJSONArr);
+                                          lCompiledTemplate.SetData('jsonarrayempty', lJSONArrEmpty);
                                           lCompiledTemplate.SetData('dataitem', lDataItemWithChild);
                                           lCompiledTemplate.SetData('dataitemnullable', lItemNullable);
                                           lCompiledTemplate.SetData('dataitemnullableallnull', lItemNullableAllNull);
@@ -983,6 +1029,7 @@ begin
           end;
         finally
           lJSONArr.Free;
+          lJSONArrEmpty.Free;
         end;
         // Explicitly release interface to avoid memory leaks
         lCompiledTemplate := nil;
@@ -1044,6 +1091,7 @@ begin
       TestGetTValueFromPath;
       TestExpressionEvaluator;
       TestExpressionInTemplate;
+      TestExpressionWithFilters;
       TestExpressionInIf;
     end;
     Main;

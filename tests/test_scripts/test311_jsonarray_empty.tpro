@@ -1,0 +1,7 @@
+﻿{{# Test empty JSON array with for..else #}}
+** Empty JSON Array with For..Else **
+{{for item in jsonarrayempty}}
+Item: {{:item.name}}
+{{else}}
+No items found in the array.
+{{endfor}}

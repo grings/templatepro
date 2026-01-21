@@ -1,0 +1,17 @@
+﻿** JSON Array Loop **
+1) Bruce Banner (age 56)
+2) Reed Richards (age 45)
+3) Scott Summers (age 54)
+4) Daniele Teti (age 40)
+
+** With Pseudo Variables **
+Bruce: ODD [FIRST]
+Reed: EVEN
+Scott: ODD
+Daniele: EVEN [LAST]
+
+** Accessing Nested Objects **
+Bruce drives a Ferrari F40
+Reed drives a Ferrari 348GTB
+Scott drives a Ford Mustang
+Daniele drives a Lancia Delta HF Integrale

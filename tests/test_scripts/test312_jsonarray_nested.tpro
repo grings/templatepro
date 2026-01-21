@@ -1,0 +1,5 @@
+﻿{{# Test nested loop over arrays inside JSON array elements #}}
+** Nested Loop in JSON Array **
+{{for person in jsonarray}}
+{{:person.first_name}}'s devices:{{for device in person.devices}} {{:device}}{{endfor}}
+{{endfor}}
