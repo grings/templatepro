@@ -1,0 +1,6 @@
+﻿** Autoescape Nested Blocks **
+Level 0 (on): &lt;div&gt;this &lt;strong&gt;HTML&lt;/strong&gt;&#345;&#353;&#269;&lt;/div&gt;
+Level 1 (off): <div>this <strong>HTML</strong>řšč</div>
+Level 2 (on): &lt;div&gt;this &lt;strong&gt;HTML&lt;/strong&gt;&#345;&#353;&#269;&lt;/div&gt;
+Back to Level 1 (off): <div>this <strong>HTML</strong>řšč</div>
+Back to Level 0 (on): &lt;div&gt;this &lt;strong&gt;HTML&lt;/strong&gt;&#345;&#353;&#269;&lt;/div&gt;

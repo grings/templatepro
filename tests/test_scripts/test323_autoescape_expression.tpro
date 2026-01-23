@@ -1,0 +1,6 @@
+** Autoescape with Expressions **
+{{set htmlval := myhtml}}
+Default: {{:htmlval}}
+{{autoescape false}}
+Autoescape off: {{:htmlval}}
+{{endautoescape}}

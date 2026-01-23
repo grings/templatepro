@@ -1,0 +1,5 @@
+﻿** Autoescape with Explicit Raw ($) **
+Default with escape: &lt;div&gt;this &lt;strong&gt;HTML&lt;/strong&gt;&#345;&#353;&#269;&lt;/div&gt;
+Default with explicit raw: <div>this <strong>HTML</strong>řšč</div>
+Autoescape off: <div>this <strong>HTML</strong>řšč</div>
+Autoescape off with explicit raw: <div>this <strong>HTML</strong>řšč</div>

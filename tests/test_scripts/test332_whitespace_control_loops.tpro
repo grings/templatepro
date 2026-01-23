@@ -1,0 +1,5 @@
+** Whitespace Control in Loops **
+Items:{{for item in objects}}
+  - {{- :item.Prop1 -}}
+{{endfor}}
+END

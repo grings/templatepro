@@ -1,0 +1,5 @@
+** Multiple Raw Blocks **
+First: {{raw}}{{:var1}}{{endraw}}
+Middle: {{:value1}}
+Second: {{raw}}{{:var2}}{{endraw}}
+End

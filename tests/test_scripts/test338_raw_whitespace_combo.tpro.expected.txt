@@ -1,0 +1,3 @@
+﻿** Raw with Whitespace Control **
+Beforecontent   After
+Left strip:preservedEND

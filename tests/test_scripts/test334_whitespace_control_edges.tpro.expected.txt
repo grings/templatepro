@@ -1,0 +1,4 @@
+﻿true
+Start stripped
+Multiple:trueDANIELE2end
+Both sides:true

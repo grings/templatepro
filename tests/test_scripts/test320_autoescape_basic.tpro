@@ -1,0 +1,6 @@
+** Autoescape Block Basic **
+Default (autoescape on): {{:myhtml}}
+{{autoescape false}}
+Autoescape off: {{:myhtml}}
+{{endautoescape}}
+Back to default: {{:myhtml}}

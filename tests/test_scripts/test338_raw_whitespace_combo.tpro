@@ -1,0 +1,3 @@
+** Raw with Whitespace Control **
+Before   {{- raw}}content{{endraw}}   After
+Left strip:   {{- raw}}preserved{{endraw}}END

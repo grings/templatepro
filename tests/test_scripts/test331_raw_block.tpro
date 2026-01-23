@@ -1,0 +1,6 @@
+** Raw Block **
+Normal: {{:value1}}
+{{raw}}
+Raw: {{:value1}} {{for x in items}}{{endfor}}
+{{endraw}}
+After raw: {{:value1}}

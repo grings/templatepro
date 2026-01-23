@@ -1,0 +1,7 @@
+** Autoescape with Explicit Raw ($) **
+Default with escape: {{:myhtml}}
+Default with explicit raw: {{:myhtml$}}
+{{autoescape false}}
+Autoescape off: {{:myhtml}}
+Autoescape off with explicit raw: {{:myhtml$}}
+{{endautoescape}}

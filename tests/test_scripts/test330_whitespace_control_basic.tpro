@@ -1,0 +1,4 @@
+** Whitespace Control Basic **
+Before{{- :value1 -}}After
+Left strip:   {{- :value1}}END
+Right strip:{{:value1 -}}   END

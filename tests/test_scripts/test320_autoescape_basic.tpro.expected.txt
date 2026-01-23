@@ -1,0 +1,4 @@
+﻿** Autoescape Block Basic **
+Default (autoescape on): &lt;div&gt;this &lt;strong&gt;HTML&lt;/strong&gt;&#345;&#353;&#269;&lt;/div&gt;
+Autoescape off: <div>this <strong>HTML</strong>řšč</div>
+Back to default: &lt;div&gt;this &lt;strong&gt;HTML&lt;/strong&gt;&#345;&#353;&#269;&lt;/div&gt;

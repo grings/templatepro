@@ -1,0 +1,6 @@
+﻿** Autoescape in Loop **
+1. <div>this <strong>HTML</strong>řšč</div>
+2. <div>this <strong>HTML</strong>řšč</div>
+3. <div>this <strong>HTML</strong>řšč</div>
+4. <div>this <strong>HTML</strong>řšč</div>
+After loop: &lt;div&gt;this &lt;strong&gt;HTML&lt;/strong&gt;&#345;&#353;&#269;&lt;/div&gt;

@@ -1,0 +1,3 @@
+** Whitespace Control with If **
+Before   {{- if value1 -}}   SHOWN   {{- endif -}}   After
+Empty:{{- if intvalue0 -}}NOT SHOWN{{- endif -}}Done

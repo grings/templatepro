@@ -1,0 +1,7 @@
+** Autoescape in Loop **
+{{for p in jsonobj.people}}
+{{autoescape false}}
+{{:p.@@index}}. {{:myhtml}}
+{{endautoescape}}
+{{endfor}}
+After loop: {{:myhtml}}

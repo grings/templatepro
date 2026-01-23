@@ -1,0 +1,6 @@
+﻿** Raw Block **
+Normal: true
+
+Raw: {{:value1}} {{for x in items}}{{endfor}}
+
+After raw: true

@@ -1,0 +1,10 @@
+** Autoescape Nested Blocks **
+Level 0 (on): {{:myhtml}}
+{{autoescape false}}
+Level 1 (off): {{:myhtml}}
+{{autoescape true}}
+Level 2 (on): {{:myhtml}}
+{{endautoescape}}
+Back to Level 1 (off): {{:myhtml}}
+{{endautoescape}}
+Back to Level 0 (on): {{:myhtml}}

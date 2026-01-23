@@ -1,0 +1,4 @@
+{{- :value1 -}}
+Start stripped
+Multiple:   {{- :value1 -}}   {{- :value2 -}}   end
+Both sides: {{- :value1 -}}

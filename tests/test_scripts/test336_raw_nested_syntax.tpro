@@ -1,0 +1,6 @@
+** Raw with Nested Syntax **
+{{raw}}
+{{if condition}}{{for x in y}}{{macro test()}}
+Multiple braces: {{ and }} and {{{ }}}
+{{endraw}}
+Done

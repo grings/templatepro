@@ -1,0 +1,4 @@
+﻿** Whitespace Control Basic **
+BeforetrueAfter
+Left strip:trueEND
+Right strip:trueEND
