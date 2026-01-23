@@ -1,0 +1,1 @@
+{&quot;Prop1&quot;:&quot;value1.1&quot;,&quot;Prop2&quot;:&quot;value2.1&quot;,&quot;Prop3&quot;:&quot;value3.1&quot;,&quot;PropInt&quot;:1}

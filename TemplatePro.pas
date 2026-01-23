@@ -245,6 +245,7 @@ type
   TTProRTTIUtils = class sealed
   public
     class function GetProperty(AObject: TObject; const APropertyName: string): TValue;
+    class function ObjectToJSONString(AObject: TObject): string;
   end;
 
   TTProDuckTypedList = class(TInterfacedObject, ITProWrappedList)
@@ -2948,6 +2949,27 @@ begin
       lStrValue := aParameters[0].ParStrText;
     aResult := aValue.AsString.ToLowerInvariant.Contains(lStrValue);
   end
+  else if SameText(aFunctionName, 'urlencode') then
+  begin
+    CheckParNumber(0, 0, aParameters);
+    aResult := TNetEncoding.URL.Encode(GetStringInput);
+  end
+  else if SameText(aFunctionName, 'truncate') then
+  begin
+    // truncate,maxlen[,"ellipsis"]  - default ellipsis is "..."
+    CheckParNumber(1, 2, aParameters);
+    lStrValue := aValue.AsString;
+    lIntegerPar1 := aParameters[0].ParIntValue;
+    if Length(lStrValue) > lIntegerPar1 then
+    begin
+      if Length(aParameters) > 1 then
+        aResult := lStrValue.Substring(0, lIntegerPar1) + aParameters[1].ParStrText
+      else
+        aResult := lStrValue.Substring(0, lIntegerPar1) + '...';
+    end
+    else
+      aResult := lStrValue;
+  end
   else
     Result := False;
 end;
@@ -3274,6 +3296,24 @@ begin
     end;
     CheckParNumber(0, aParameters);
     Result := TEMPLATEPRO_VERSION;
+  end
+  else if SameText(aFunctionName, 'json') then
+  begin
+    // Serialize value to JSON string
+    CheckParNumber(0, 0, aParameters);
+    if aValue.IsObject then
+    begin
+      if aValue.AsObject is TJDOJsonObject then
+        Result := TJDOJsonObject(aValue.AsObject).ToJSON
+      else if aValue.AsObject is TJDOJsonArray then
+        Result := TJDOJsonArray(aValue.AsObject).ToJSON
+      else
+        Result := TTProRTTIUtils.ObjectToJSONString(aValue.AsObject);
+    end
+    else if aValue.IsEmpty then
+      Result := 'null'
+    else
+      Result := aValue.ToString;
   end
   else if fTemplateFunctions.TryGetValue(aFunctionName, lFunc) then
   begin
@@ -5050,6 +5090,48 @@ begin
     Result := Prop.GetValue(AObject)
   else
     raise Exception.CreateFmt('Property is not readable [%s.%s]', [ARttiType.ToString, APropertyName]);
+end;
+
+class function TTProRTTIUtils.ObjectToJSONString(AObject: TObject): string;
+var
+  lRttiType: TRttiType;
+  lProp: TRttiProperty;
+  lValue: TValue;
+  lJSON: TJDOJsonObject;
+begin
+  if AObject = nil then
+    Exit('null');
+
+  lJSON := TJDOJsonObject.Create;
+  try
+    lRttiType := GlContext.GetType(AObject.ClassType);
+    for lProp in lRttiType.GetProperties do
+    begin
+      if lProp.IsReadable and (lProp.Visibility in [mvPublic, mvPublished]) then
+      begin
+        lValue := lProp.GetValue(AObject);
+        case lProp.PropertyType.TypeKind of
+          tkInteger, tkInt64:
+            lJSON.I[lProp.Name] := lValue.AsInt64;
+          tkFloat:
+            if lProp.PropertyType.Handle = TypeInfo(TDateTime) then
+              lJSON.S[lProp.Name] := DateToISO8601(lValue.AsExtended)
+            else
+              lJSON.F[lProp.Name] := lValue.AsExtended;
+          tkString, tkLString, tkWString, tkUString:
+            lJSON.S[lProp.Name] := lValue.AsString;
+          tkEnumeration:
+            if lProp.PropertyType.Handle = TypeInfo(Boolean) then
+              lJSON.B[lProp.Name] := lValue.AsBoolean
+            else
+              lJSON.S[lProp.Name] := lValue.ToString;
+        end;
+      end;
+    end;
+    Result := lJSON.ToJSON;
+  finally
+    lJSON.Free;
+  end;
 end;
 
 { TDuckTypedList }
