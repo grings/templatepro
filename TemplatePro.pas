@@ -4360,8 +4360,9 @@ begin
           end
           else if lVarMembers.IsEmpty then
           begin
-            // Return field value
-            Result := lField.AsString;
+            // Return TField object (for passing to macros)
+            // GetTValueVarAsString will convert it to AsString when needed for display
+            Result := TValue.From<TObject>(lField);
           end
           else
           begin
@@ -4662,6 +4663,21 @@ begin
       if lVariable.VarValue.IsEmpty then
       begin
         Result := TValue.Empty;
+      end
+      else if lHasMember then
+      begin
+        // Handle member access for objects stored in simple types (e.g., TField passed to macro)
+        if lVariable.VarValue.IsObject and (lVariable.VarValue.AsObject <> nil) then
+        begin
+          if lVariable.VarValue.AsObject is TField then
+            Result := GetFieldProperty(TField(lVariable.VarValue.AsObject), lVarMembers)
+          else
+            Result := GetTValueFromPath(lVariable.VarValue.AsObject, lVarMembers);
+        end
+        else
+        begin
+          Result := TValue.Empty;
+        end;
       end
       else
       begin

@@ -1,0 +1,4 @@
+{{macro show_field(fld)}}{{:fld.FieldName}}={{:fld.DataType}}{{endmacro -}}
+{{for f in customers.fields}}
+{{>show_field(f)}}
+{{endfor}}
