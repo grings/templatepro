@@ -5,6 +5,23 @@ All notable changes to TemplatePro will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1] - 2026-01
+
+### Added
+- **Null/Nullable filter coverage tests**: 14 new tests (test500–test513) covering Nullable null/value, TField null, filter chains, and edge cases
+- **`GetDatasetWithNulls` test helper**: Utility function to create datasets with null fields for testing
+- **`build_tests.ps1`**: New PowerShell build-and-run script for the test suite
+
+### Fixed
+- **Nullable types showing `(record)` with filters**: When a Nullable variable (e.g., `NullableString`, `NullableInt32`) was used with any filter (e.g., `{{:var|uppercase}}`), it displayed `(record)` instead of the actual value. Nullable types are now unwrapped to their inner value before entering the filter pipeline
+- **`EInvalidCast` on string filters with null Nullable**: Applying `uppercase`, `lowercase`, `capitalize`, or `urlencode` to a null Nullable caused an `EInvalidCast` exception. Null values now safely produce an empty string
+- **TField null handling in filters**: Null `TField` values now behave correctly across all filters (`default`, `datetostr`, `datetimetostr`, `round`, `formatfloat`, `uppercase`, etc.) — they are normalized to `TValue.Empty` before filter processing
+- **Memory leak**: Fixed memory leak caused by `IExprEvaluator` interface reference counting interacting with anonymous method closures. `fExprEvaluator` is now stored as `TExprEvaluator` (object) with explicit `Free` in the destructor, and `fOnGetValue` is set to `nil` to break the closure reference cycle
+- **Exception test path casing**: Exception message comparison in tests now uses case-insensitive `SameText` to handle path casing differences across environments
+
+### Removed
+- Obsolete `build.bat` and `write_bom.ps1` scripts from test folder
+
 ## [1.0] - 2026-01
 
 ### Added
@@ -141,6 +158,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 
 ## Migration Guide
+
+### From 1.0 to 1.1
+
+No breaking changes. All fixes are internal:
+
+1. **Nullable with filters**: `{{:nullableVar|uppercase}}` now correctly outputs the value instead of `(record)`
+2. **Null safety**: Null Nullable and null TField values no longer cause exceptions when passed through filters
+3. **Memory**: No more memory leaks on shutdown when using compiled templates
 
 ### From 0.9.x to 1.0
 
