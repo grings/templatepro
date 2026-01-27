@@ -128,11 +128,11 @@ type
 /// <summary>
 /// Create a new expression evaluator instance
 /// </summary>
-function CreateExprEvaluator: IExprEvaluator;
+function CreateExprEvaluator: TExprEvaluator;
 
 implementation
 
-function CreateExprEvaluator: IExprEvaluator;
+function CreateExprEvaluator: TExprEvaluator;
 begin
   Result := TExprEvaluator.Create;
 end;

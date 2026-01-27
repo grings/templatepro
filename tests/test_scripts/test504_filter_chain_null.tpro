@@ -1,0 +1,16 @@
+Test: chained filters with null values
+=======================================
+
+default with string fallback: [{{:dataitemnullableallnull.NullString|default,"fallback"}}]
+default with integer fallback: [{{:dataitemnullableallnull.NullInt32|default,999}}]
+default with variable fallback: [{{:dataitemnullableallnull.NullString|default,value2}}]
+
+default on zero int: [{{:intvalue0|default,42}}]
+default on non-zero int: [{{:intvalue1|default,42}}]
+default on existing string: [{{:value2|default,"fallback"}}]
+default on nonexistent var: [{{:nonexistent_var|default,"fallback"}}]
+
+uppercase on string: [{{:value2|uppercase|default,"EMPTY"}}]
+lowercase on string: [{{:value2|lowercase|default,"empty"}}]
+
+Done.

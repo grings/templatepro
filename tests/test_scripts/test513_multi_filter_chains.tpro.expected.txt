@@ -1,0 +1,23 @@
+Test: Multi-filter chains (3+ filters)
+=======================================
+
+String 3-chain: uppercase then lpad then default:
+[     DANIELE]
+
+Null 3-chain: uppercase then lpad then default:
+[            ]
+
+Date 3-chain: datetostr then uppercase then lpad:
+[     1979-11-04]
+
+Null date 3-chain: datetostr then default:
+[no date]
+
+TField 3-chain in loop:
+[        DANIELE]
+[          BRUCE]
+[               ]
+Nullable in loop 3-chain:
+[TRUE      ]
+[          ]
+Done.

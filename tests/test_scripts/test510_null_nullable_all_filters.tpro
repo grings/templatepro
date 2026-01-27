@@ -1,0 +1,24 @@
+Test: Null Nullable types through all filter categories
+=======================================================
+
+String filters on null NullableString:
+uppercase: [{{:dataitemnullableallnull.NullString|uppercase}}]
+lowercase: [{{:dataitemnullableallnull.NullString|lowercase}}]
+capitalize: [{{:dataitemnullableallnull.NullString|capitalize}}]
+
+Numeric filters on null NullableInt32:
+formatfloat: [{{:dataitemnullableallnull.NullInt32|formatfloat,"0"}}]
+
+Date filters on null NullableTDate:
+datetostr: [{{:dataitemnullableallnull.NullDate|datetostr}}]
+
+DateTime filters on null NullableTDateTime:
+datetimetostr: [{{:dataitemnullableallnull.NullDateTime|datetimetostr}}]
+
+Chained with default:
+uppercase|default: [{{:dataitemnullableallnull.NullString|uppercase|default,"EMPTY"}}]
+lowercase|default: [{{:dataitemnullableallnull.NullString|lowercase|default,"empty"}}]
+datetostr|default: [{{:dataitemnullableallnull.NullDate|datetostr|default,"no date"}}]
+formatfloat|default: [{{:dataitemnullableallnull.NullInt32|formatfloat,"0"|default,"N/A"}}]
+
+Done.

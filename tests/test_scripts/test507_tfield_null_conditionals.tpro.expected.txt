@@ -1,0 +1,3 @@
+Test: TField null values in conditionals
+==========================================
+has name | has noteshas name | no notesno name | no notesDone.

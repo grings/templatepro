@@ -1,0 +1,24 @@
+Test: Null Nullable types through all filter categories
+=======================================================
+
+String filters on null NullableString:
+uppercase: []
+lowercase: []
+capitalize: []
+
+Numeric filters on null NullableInt32:
+formatfloat: []
+
+Date filters on null NullableTDate:
+datetostr: []
+
+DateTime filters on null NullableTDateTime:
+datetimetostr: []
+
+Chained with default:
+uppercase|default: [EMPTY]
+lowercase|default: [empty]
+datetostr|default: [no date]
+formatfloat|default: [N/A]
+
+Done.

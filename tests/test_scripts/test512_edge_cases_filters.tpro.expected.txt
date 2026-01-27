@@ -1,0 +1,25 @@
+Test: Edge cases - zero, false, empty string through filters
+=============================================================
+
+Zero integer with default:
+default 42: [42]
+formatfloat: [0]
+lpad 5: [    0]
+
+Non-zero integer with default:
+default 42: [1]
+
+Empty/missing variable:
+default: [fallback]
+
+String value through numeric-ish filters:
+uppercase then default: [DANIELE2]
+lowercase then default: [daniele2]
+
+Contains edge cases:
+contains DANIELE: TRUEcontains daniele (case): FALSEicontains daniele: TRUEcontains NOTFOUND: FALSE
+Truncate edge cases:
+short string truncate 100: [DANIELE2]
+exact length truncate 8: [DANIELE2]
+
+Done.

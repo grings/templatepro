@@ -1,0 +1,13 @@
+Test: datetostr with null Nullable dates
+=========================================
+
+datetostr on null NullDate: [{{:dataitemnullableallnull.NullDate|datetostr}}]
+datetostr on null NullDateTime: [{{:dataitemnullableallnull.NullDateTime|datetostr}}]
+datetostr chained with default on null: [{{:dataitemnullableallnull.NullDate|datetostr|default,"Not specified"}}]
+datetostr on valid NullDate: [{{:dataitemnullable.NullDate|datetostr}}]
+datetostr with format on valid: [{{:dataitemnullable.NullDate|datetostr,"dd/mm/yyyy"}}]
+datetostr on null NullableTDateTime var: [{{:nullable_datetime_null|datetostr}}]
+datetostr on valid NullableTDateTime var: [{{:nullable_datetime|datetostr}}]
+datetostr chained default on null var: [{{:nullable_datetime_null|datetostr|default,"No date"}}]
+
+Done.

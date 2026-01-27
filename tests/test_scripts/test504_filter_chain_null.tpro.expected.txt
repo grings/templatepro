@@ -1,0 +1,16 @@
+Test: chained filters with null values
+=======================================
+
+default with string fallback: [fallback]
+default with integer fallback: [999]
+default with variable fallback: [DANIELE2]
+
+default on zero int: [42]
+default on non-zero int: [1]
+default on existing string: [DANIELE2]
+default on nonexistent var: [fallback]
+
+uppercase on string: [DANIELE2]
+lowercase on string: [daniele2]
+
+Done.

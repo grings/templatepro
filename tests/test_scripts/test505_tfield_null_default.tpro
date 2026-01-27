@@ -1,0 +1,8 @@
+Test: TField null values with default filter
+==============================================
+
+{{for item in datasetnulls}}
+Name: [{{:item.Name|default,"Anonymous"}}] Age: [{{:item.Age|default,0}}] Notes: [{{:item.Notes|default,"N/A"}}]
+{{endfor}}
+
+Done.

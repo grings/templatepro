@@ -119,6 +119,7 @@ function GetCustomersDataset: TDataSet;
 function GetTestDataset: TDataSet;
 function GetSingleCustomerDataset: TDataSet;
 function GetEmptyDataset: TDataSet;
+function GetDatasetWithNulls: TDataSet;
 
 implementation
 
@@ -241,6 +242,55 @@ begin
   end;
 end;
 
+
+function GetDatasetWithNulls: TDataSet;
+var
+  lMT: TFDMemTable;
+begin
+  lMT := TFDMemTable.Create(nil);
+  try
+    lMT.FieldDefs.Clear;
+    lMT.FieldDefs.Add('Name', ftString, 30);
+    lMT.FieldDefs.Add('Age', ftInteger);
+    lMT.FieldDefs.Add('Salary', ftFloat);
+    lMT.FieldDefs.Add('BirthDate', ftDate);
+    lMT.FieldDefs.Add('Notes', ftString, 100);
+    lMT.Active := True;
+
+    { Record 1: all values filled }
+    lMT.Append;
+    lMT.FieldByName('Name').AsString := 'Daniele';
+    lMT.FieldByName('Age').AsInteger := 45;
+    lMT.FieldByName('Salary').AsFloat := 50000.00;
+    lMT.FieldByName('BirthDate').AsDateTime := EncodeDate(1979, 11, 4);
+    lMT.FieldByName('Notes').AsString := 'Founder';
+    lMT.Post;
+
+    { Record 2: some null values }
+    lMT.Append;
+    lMT.FieldByName('Name').AsString := 'Bruce';
+    lMT.FieldByName('Age').AsInteger := 40;
+    { Salary is NULL }
+    { BirthDate is NULL }
+    lMT.FieldByName('Notes').Clear;
+    lMT.Post;
+
+    { Record 3: all nullable fields are NULL }
+    lMT.Append;
+    lMT.FieldByName('Name').Clear;
+    lMT.FieldByName('Age').Clear;
+    lMT.FieldByName('Salary').Clear;
+    lMT.FieldByName('BirthDate').Clear;
+    lMT.FieldByName('Notes').Clear;
+    lMT.Post;
+
+    lMT.First;
+    Result := lMT;
+  except
+    lMT.Free;
+    raise;
+  end;
+end;
 
 function GetItemsNullables: TObjectList<TDataItemNullables>;
 begin

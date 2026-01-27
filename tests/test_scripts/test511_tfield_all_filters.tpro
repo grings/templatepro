@@ -1,0 +1,22 @@
+Test: TField values through all filter categories
+==================================================
+{{for row in testdst}}
+String: [{{:row.field_ftString|uppercase}}]
+String lower: [{{:row.field_ftString|lowercase}}]
+String lpad: [{{:row.field_ftString|lpad,20}}]
+String rpad: [{{:row.field_ftString|rpad,20}}]
+String truncate: [{{:row.field_ftString|truncate,8}}]
+String capitalize: [{{:row.field_ftString|capitalize}}]
+Int: [{{:row.field_ftInteger|formatfloat,"0"}}]
+Int lpad: [{{:row.field_ftInteger|lpad,5}}]
+Float formatfloat: [{{:row.field_ftFloat|formatfloat,"0"}}]
+---
+{{endfor}}
+Null TField values:
+{{for row in datasetnulls}}
+Name: [{{:row.Name|uppercase|default,"NULL"}}]
+Salary: [{{:row.Salary|formatfloat,"0"|default,"NULL"}}]
+BirthDate: [{{:row.BirthDate|datetostr|default,"NULL"}}]
+---
+{{endfor}}
+Done.

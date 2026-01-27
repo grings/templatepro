@@ -1,0 +1,15 @@
+Test: Nullable null values in loop with default and filters
+=============================================================
+String: [true]
+Boolean: [NULL]
+Int32: [1]
+Int64: [2]
+Date: [2011-11-17]
+---
+String: [NULL]
+Boolean: [NULL]
+Int32: [NULL]
+Int64: [NULL]
+Date: [NULL]
+---
+Done.

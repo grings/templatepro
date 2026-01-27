@@ -1,0 +1,36 @@
+Test: TField values through all filter categories
+==================================================
+String: [DANIELE TETI]
+String lower: [daniele teti]
+String lpad: [        Daniele Teti]
+String rpad: [Daniele Teti        ]
+String truncate: [Daniele ...]
+String capitalize: [Daniele Teti]
+Int: [1]
+Int lpad: [    1]
+Float formatfloat: [123]
+---
+String: [BRUCE BANNER]
+String lower: [bruce banner]
+String lpad: [        Bruce Banner]
+String rpad: [Bruce Banner        ]
+String truncate: [Bruce Ba...]
+String capitalize: [Bruce Banner]
+Int: [2]
+Int lpad: [    2]
+Float formatfloat: [235]
+---
+Null TField values:
+Name: [DANIELE]
+Salary: [50000]
+BirthDate: [1979-11-04]
+---
+Name: [BRUCE]
+Salary: [NULL]
+BirthDate: [1899-12-30]
+---
+Name: [NULL]
+Salary: [NULL]
+BirthDate: [1899-12-30]
+---
+Done.

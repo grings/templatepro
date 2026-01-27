@@ -1,0 +1,6 @@
+Test: TField null values in conditionals
+==========================================
+{{for item in datasetnulls}}
+{{if item.Name}}has name{{else}}no name{{endif}} | {{if item.Notes}}has notes{{else}}no notes{{endif}}
+{{endfor}}
+Done.

@@ -1,0 +1,8 @@
+Test: default filter with Nullable types that have values
+=========================================================
+
+NullString: [{{:dataitemnullable.NullString|default,"N/A"}}]
+NullInt32: [{{:dataitemnullable.NullInt32|default,0}}]
+NullInt64: [{{:dataitemnullable.NullInt64|default,-1}}]
+
+Done.

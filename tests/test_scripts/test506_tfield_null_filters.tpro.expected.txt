@@ -1,0 +1,15 @@
+Test: TField null values with various filters
+===============================================
+
+---
+Name uppercase: [DANIELE]
+Name lowercase: [daniele]
+---
+Name uppercase: [BRUCE]
+Name lowercase: [bruce]
+---
+Name uppercase: [N/A]
+Name lowercase: [n/a]
+---
+
+Done.

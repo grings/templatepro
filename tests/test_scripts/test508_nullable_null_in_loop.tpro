@@ -1,0 +1,11 @@
+Test: Nullable null values in loop with default and filters
+=============================================================
+{{for item in objects_nullables}}
+String: [{{:item.NullString|default,"NULL"}}]
+Boolean: [{{:item.NullBoolean|default,"NULL"}}]
+Int32: [{{:item.NullInt32|default,"NULL"}}]
+Int64: [{{:item.NullInt64|default,"NULL"}}]
+Date: [{{:item.NullDate|datetostr|default,"NULL"}}]
+---
+{{endfor}}
+Done.

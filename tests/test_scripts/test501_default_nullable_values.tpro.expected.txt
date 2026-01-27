@@ -1,0 +1,8 @@
+Test: default filter with Nullable types that have values
+=========================================================
+
+NullString: [Daniele]
+NullInt32: [123]
+NullInt64: [234]
+
+Done.

@@ -1,0 +1,11 @@
+Test: TField null values with various filters
+===============================================
+
+{{for item in datasetnulls}}
+---
+Name uppercase: [{{:item.Name|uppercase|default,"N/A"}}]
+Name lowercase: [{{:item.Name|lowercase|default,"n/a"}}]
+{{endfor}}
+---
+
+Done.

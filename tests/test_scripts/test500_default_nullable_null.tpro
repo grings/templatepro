@@ -1,0 +1,13 @@
+Test: default filter with null Nullable types
+==============================================
+
+NullString: [{{:dataitemnullableallnull.NullString|default,"N/A"}}]
+NullBoolean: [{{:dataitemnullableallnull.NullBoolean|default,"N/A"}}]
+NullInt32: [{{:dataitemnullableallnull.NullInt32|default,0}}]
+NullInt64: [{{:dataitemnullableallnull.NullInt64|default,-1}}]
+NullDate: [{{:dataitemnullableallnull.NullDate|default,"no date"}}]
+NullDateTime: [{{:dataitemnullableallnull.NullDateTime|default,"no datetime"}}]
+NullTime: [{{:dataitemnullableallnull.NullTime|default,"no time"}}]
+NullCurrency: [{{:dataitemnullableallnull.NullCurrency|default,0}}]
+
+Done.

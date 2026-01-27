@@ -1,0 +1,13 @@
+Test: datetostr with null Nullable dates
+=========================================
+
+datetostr on null NullDate: []
+datetostr on null NullDateTime: []
+datetostr chained with default on null: [Not specified]
+datetostr on valid NullDate: [1979-11-04]
+datetostr with format on valid: [04/11/1979]
+datetostr on null NullableTDateTime var: []
+datetostr on valid NullableTDateTime var: [2025-12-30]
+datetostr chained default on null var: [No date]
+
+Done.

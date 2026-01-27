@@ -1,0 +1,32 @@
+Test: Nullable types WITH values through all filter categories
+==============================================================
+
+String filters on NullString ('Daniele'):
+uppercase: [DANIELE]
+lowercase: [daniele]
+capitalize: [Daniele]
+lpad 10: [   Daniele]
+rpad 10: [Daniele   ]
+truncate 4: [Dani...]
+
+Numeric filters on NullInt32 (123):
+formatfloat: [123]
+mod 10: [3]
+
+Numeric on NullCurrency (1234.5678):
+formatfloat: [1235]
+
+Date filters on NullDate (1979-11-04):
+datetostr: [1979-11-04]
+datetostr fmt: [04/11/1979]
+
+DateTime filters on NullDateTime (1979-11-04 17:18:19):
+datetimetostr: [1979-11-04 17:18:19]
+datetimetostr fmt: [04/11/1979 17:18:19]
+
+Comparison on NullInt32 (123):
+eq 123: TRUEgt 100: TRUElt 200: TRUEne 999: TRUE
+Boolean NullBoolean (true):
+default: [True]
+
+Done.

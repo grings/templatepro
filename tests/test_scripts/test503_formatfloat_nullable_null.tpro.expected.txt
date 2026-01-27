@@ -1,0 +1,10 @@
+Test: default filter on null numeric Nullable types
+====================================================
+
+default on null NullInt32: [0]
+default on null NullInt64: [-1]
+default on null NullCurrency: [0]
+default on valid NullInt32: [123]
+default on valid NullInt64: [234]
+
+Done.

@@ -743,6 +743,7 @@ var
   lUltraNestedList: TObjectList<TObjectList<TObjectList<TSimpleDataItem>>>;
   lEmptyList: TObjectList<TObjectList<TObjectList<TSimpleDataItem>>>;
   lTestDataSet: TDataSet;
+  lDataSetWithNulls: TDataSet;
   lSimpleNested: TSimpleNested1;
   lItemNullable: TDataItemNullables;
   lItemNullableAllNull: TDataItemNullables;
@@ -785,7 +786,7 @@ begin
         begin
           // compilation failed, check the expected exception message
           lExpectedExceptionMessage := TFile.ReadAllText(lFile + '.expected.exception.txt', TEncoding.UTF8);
-          if lActualOutput <> lExpectedExceptionMessage then
+          if not SameText(lActualOutput, lExpectedExceptionMessage) then
           begin
             lFailed := True;
             WriteLn(' : WRONG EXCEPTION');
@@ -921,6 +922,8 @@ begin
                                     lEmptyList.Last.Add(TObjectList<TSimpleDataItem>.Create(True));
                                     lTestDataSet := GetTestDataset;
                                     try
+                                      lDataSetWithNulls := GetDatasetWithNulls;
+                                      try
                                       lSimpleNested := TSimpleNested1.Create('ValueNested');
                                       try
                                         lItemNullable := TDataItemNullables.Create('Daniele', True, 123, 234,
@@ -934,6 +937,7 @@ begin
                                           lCompiledTemplate.SetData('customer', lCustomer);
                                           lCompiledTemplate.SetData('customers', lCustomers);
                                           lCompiledTemplate.SetData('testdst', lTestDataSet);
+                                          lCompiledTemplate.SetData('datasetnulls', lDataSetWithNulls);
                                           lCompiledTemplate.SetData('objects', lItems);
                                           lCompiledTemplate.SetData('objects_nullables', lItemsNullables);
                                           lCompiledTemplate.SetData('dataitems', lDataItemWithChildList);
@@ -984,6 +988,9 @@ begin
                                         end;
                                       finally
                                         lSimpleNested.Free;
+                                      end;
+                                      finally
+                                        lDataSetWithNulls.Free;
                                       end;
                                     finally
                                       lTestDataSet.Free;

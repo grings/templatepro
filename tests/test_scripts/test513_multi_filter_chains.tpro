@@ -1,0 +1,24 @@
+Test: Multi-filter chains (3+ filters)
+=======================================
+
+String 3-chain: uppercase then lpad then default:
+[{{:dataitemnullable.NullString|uppercase|lpad,12|default,"EMPTY"}}]
+
+Null 3-chain: uppercase then lpad then default:
+[{{:dataitemnullableallnull.NullString|uppercase|lpad,12|default,"EMPTY"}}]
+
+Date 3-chain: datetostr then uppercase then lpad:
+[{{:dataitemnullable.NullDate|datetostr|lpad,15}}]
+
+Null date 3-chain: datetostr then default:
+[{{:dataitemnullableallnull.NullDate|datetostr|default,"no date"}}]
+
+TField 3-chain in loop:
+{{for row in datasetnulls}}
+[{{:row.Name|uppercase|lpad,15|default,"UNKNOWN"}}]
+{{endfor}}
+Nullable in loop 3-chain:
+{{for item in objects_nullables}}
+[{{:item.NullString|uppercase|rpad,10|default,"NONE"}}]
+{{endfor}}
+Done.

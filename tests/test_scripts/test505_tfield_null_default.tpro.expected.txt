@@ -1,0 +1,8 @@
+Test: TField null values with default filter
+==============================================
+
+Name: [Daniele] Age: [45] Notes: [Founder]
+Name: [Bruce] Age: [40] Notes: [N/A]
+Name: [Anonymous] Age: [0] Notes: [N/A]
+
+Done.

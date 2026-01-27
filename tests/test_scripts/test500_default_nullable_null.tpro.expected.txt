@@ -1,0 +1,13 @@
+Test: default filter with null Nullable types
+==============================================
+
+NullString: [N/A]
+NullBoolean: [N/A]
+NullInt32: [0]
+NullInt64: [-1]
+NullDate: [no date]
+NullDateTime: [no datetime]
+NullTime: [no time]
+NullCurrency: [0]
+
+Done.

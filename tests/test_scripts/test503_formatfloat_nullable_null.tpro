@@ -1,0 +1,10 @@
+Test: default filter on null numeric Nullable types
+====================================================
+
+default on null NullInt32: [{{:dataitemnullableallnull.NullInt32|default,0}}]
+default on null NullInt64: [{{:dataitemnullableallnull.NullInt64|default,-1}}]
+default on null NullCurrency: [{{:dataitemnullableallnull.NullCurrency|default,0}}]
+default on valid NullInt32: [{{:dataitemnullable.NullInt32|default,0}}]
+default on valid NullInt64: [{{:dataitemnullable.NullInt64|default,-1}}]
+
+Done.

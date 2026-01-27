@@ -1,0 +1,36 @@
+Test: Nullable types WITH values through all filter categories
+==============================================================
+
+String filters on NullString ('Daniele'):
+uppercase: [{{:dataitemnullable.NullString|uppercase}}]
+lowercase: [{{:dataitemnullable.NullString|lowercase}}]
+capitalize: [{{:dataitemnullable.NullString|capitalize}}]
+lpad 10: [{{:dataitemnullable.NullString|lpad,10}}]
+rpad 10: [{{:dataitemnullable.NullString|rpad,10}}]
+truncate 4: [{{:dataitemnullable.NullString|truncate,4}}]
+
+Numeric filters on NullInt32 (123):
+formatfloat: [{{:dataitemnullable.NullInt32|formatfloat,"0"}}]
+mod 10: [{{:dataitemnullable.NullInt32|mod,10}}]
+
+Numeric on NullCurrency (1234.5678):
+formatfloat: [{{:dataitemnullable.NullCurrency|formatfloat,"0"}}]
+
+Date filters on NullDate (1979-11-04):
+datetostr: [{{:dataitemnullable.NullDate|datetostr}}]
+datetostr fmt: [{{:dataitemnullable.NullDate|datetostr,"dd/mm/yyyy"}}]
+
+DateTime filters on NullDateTime (1979-11-04 17:18:19):
+datetimetostr: [{{:dataitemnullable.NullDateTime|datetimetostr}}]
+datetimetostr fmt: [{{:dataitemnullable.NullDateTime|datetimetostr,"dd/mm/yyyy hh:nn:ss"}}]
+
+Comparison on NullInt32 (123):
+{{if dataitemnullable.NullInt32|eq,123}}eq 123: TRUE{{endif}}
+{{if dataitemnullable.NullInt32|gt,100}}gt 100: TRUE{{endif}}
+{{if dataitemnullable.NullInt32|lt,200}}lt 200: TRUE{{endif}}
+{{if dataitemnullable.NullInt32|ne,999}}ne 999: TRUE{{endif}}
+
+Boolean NullBoolean (true):
+default: [{{:dataitemnullable.NullBoolean|default,"N/A"}}]
+
+Done.

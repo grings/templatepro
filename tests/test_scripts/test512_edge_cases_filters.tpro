@@ -1,0 +1,29 @@
+Test: Edge cases - zero, false, empty string through filters
+=============================================================
+
+Zero integer with default:
+default 42: [{{:intvalue0|default,42}}]
+formatfloat: [{{:intvalue0|formatfloat,"0"}}]
+lpad 5: [{{:intvalue0|lpad,5}}]
+
+Non-zero integer with default:
+default 42: [{{:intvalue1|default,42}}]
+
+Empty/missing variable:
+default: [{{:nonexistent_var|default,"fallback"}}]
+
+String value through numeric-ish filters:
+uppercase then default: [{{:value2|uppercase|default,"EMPTY"}}]
+lowercase then default: [{{:value2|lowercase|default,"empty"}}]
+
+Contains edge cases:
+{{if value2|contains,"DANIELE"}}contains DANIELE: TRUE{{endif}}
+{{if value2|contains,"daniele"}}contains daniele (case): TRUE{{else}}contains daniele (case): FALSE{{endif}}
+{{if value2|icontains,"daniele"}}icontains daniele: TRUE{{endif}}
+{{if value2|contains,"NOTFOUND"}}contains NOTFOUND: TRUE{{else}}contains NOTFOUND: FALSE{{endif}}
+
+Truncate edge cases:
+short string truncate 100: [{{:value2|truncate,100}}]
+exact length truncate 8: [{{:value2|truncate,8}}]
+
+Done.
