@@ -129,7 +129,7 @@ type
     mmErrors: TMemo;
     procedure btnExecuteClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure FileListBox1DblClick(Sender: TObject);
+    procedure FileListBox1Change(Sender: TObject);
   private
     fProducts: TObjectList<TObject>;
     fStats: TObjectList<TObject>;
@@ -161,11 +161,12 @@ begin
   ExecuteTemplate(MemoTemplate.Lines.Text);
 end;
 
-procedure TMainForm.FileListBox1DblClick(Sender: TObject);
+procedure TMainForm.FileListBox1Change(Sender: TObject);
 begin
   PageControl1.ActivePageIndex := 0;
   if tfile.Exists(FileListBox1.FileName) then
     MemoTemplate.Lines.LoadFromFile(FileListBox1.FileName, TEncoding.UTF8);
+
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);

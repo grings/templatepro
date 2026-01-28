@@ -36,7 +36,7 @@ object MainForm: TMainForm
     Mask = '*.tpro'
     ParentFont = False
     TabOrder = 0
-    OnDblClick = FileListBox1DblClick
+    OnChange = FileListBox1Change
   end
   object Panel1: TPanel
     Left = 0
@@ -97,7 +97,6 @@ object MainForm: TMainForm
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        ExplicitHeight = 408
       end
       object Panel2: TPanel
         Left = 0
@@ -120,8 +119,6 @@ object MainForm: TMainForm
           Height = 62
           Align = alClient
           TabOrder = 0
-          ExplicitTop = 0
-          ExplicitHeight = 40
         end
       end
     end
